@@ -49,11 +49,12 @@ const Events = () => {
         </h2>
 
         <div className="grid gap-12 md:grid-cols-3">
-          {eventsData.map(({ id, title, date, description, image }) => (
+          {eventsData.map(({ id, title, date, description, image }, index) => (
             <article
               key={id}
               className="rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition cursor-pointer"
-              data-aos="fade-up"
+              data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
+              data-aos-delay={`${index * 100}`}
             >
               <img
                 src={image}

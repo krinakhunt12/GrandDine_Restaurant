@@ -4,7 +4,6 @@ import "aos/dist/aos.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 
-// Example image URLs, you can replace these with your own images or import local ones
 const heroImage =
   "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80";
 const contactIllustration =

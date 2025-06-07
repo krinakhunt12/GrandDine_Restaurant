@@ -26,7 +26,7 @@ const allMenuItems = [
     details:
       "Sustainably sourced Atlantic salmon, served with seasonal vegetables.",
     image:
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80", // New salmon image
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
   },
   {
     id: 3,
@@ -75,7 +75,6 @@ const allMenuItems = [
     image:
       "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
   },
-
   {
     id: 7,
     category: "Drinks",
@@ -84,7 +83,7 @@ const allMenuItems = [
     price: "$6",
     details: "Non-alcoholic, vegan-friendly.",
     image:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80", // New lemonade image
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -105,6 +104,10 @@ const Menu = () => {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+
+  useEffect(() => {
+    AOS.refresh();
+  }, [activeCategory]);
 
   const filteredMenuItems =
     activeCategory === "All"
@@ -137,6 +140,7 @@ const Menu = () => {
         <div
           className="flex flex-wrap justify-center gap-4 mb-12"
           data-aos="fade-up"
+          data-aos-delay="200"
         >
           {categories.map((cat) => (
             <button
@@ -155,12 +159,9 @@ const Menu = () => {
         </div>
 
         {/* Menu Items Grid */}
-        <div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-12"
-          data-aos="fade-up"
-        >
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {filteredMenuItems.map(
-            ({ id, name, description, price, image, details }) => (
+            ({ id, name, description, price, image, details }, index) => (
               <article
                 key={id}
                 className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 cursor-pointer focus:outline-yellow-400"
@@ -173,6 +174,8 @@ const Menu = () => {
                     toggleExpand(id);
                   }
                 }}
+                data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
+                data-aos-delay={`${index * 100}`}
               >
                 <img
                   src={image}
@@ -186,7 +189,6 @@ const Menu = () => {
                   </h3>
                   <p className="text-gray-700 mb-2">{description}</p>
 
-                  {/* Show details only if expanded */}
                   {expandedItems.includes(id) && (
                     <p className="text-gray-600 italic mb-4">{details}</p>
                   )}
@@ -211,7 +213,10 @@ const Menu = () => {
         </div>
       </section>
 
-      <Footer />
+      {/* Footer with optional animation */}
+      <div data-aos="fade-up">
+        <Footer />
+      </div>
     </div>
   );
 };

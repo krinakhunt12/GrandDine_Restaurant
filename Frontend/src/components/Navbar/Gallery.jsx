@@ -55,11 +55,12 @@ const Gallery = () => {
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {galleryImages.map(({ id, src, alt }) => (
+          {galleryImages.map(({ id, src, alt }, index) => (
             <div
               key={id}
               className="overflow-hidden rounded-xl shadow-lg cursor-pointer hover:scale-105 transform transition duration-300"
-              data-aos="fade-up"
+              data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
+              data-aos-delay={`${index * 100}`}
             >
               <img
                 src={src}
