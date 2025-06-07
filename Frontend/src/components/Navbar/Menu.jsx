@@ -3,6 +3,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import MenuDetail from "../MenuDetail";  // Import the detail modal component
 
 const allMenuItems = [
   {
@@ -99,7 +100,7 @@ const categories = [
 
 const Menu = () => {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [expandedItems, setExpandedItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -113,12 +114,6 @@ const Menu = () => {
     activeCategory === "All"
       ? allMenuItems
       : allMenuItems.filter((item) => item.category === activeCategory);
-
-  const toggleExpand = (id) => {
-    setExpandedItems((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  };
 
   return (
     <div className="font-sans bg-white text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
@@ -161,17 +156,19 @@ const Menu = () => {
         {/* Menu Items Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {filteredMenuItems.map(
-            ({ id, name, description, price, image, details }, index) => (
+            ({ id, name, description, price, image }, index) => (
               <article
                 key={id}
                 className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 cursor-pointer focus:outline-yellow-400"
                 tabIndex={0}
                 aria-label={`${name} - ${description} - Price ${price}`}
-                onClick={() => toggleExpand(id)}
+                onClick={() =>
+                  setSelectedItem(allMenuItems.find((item) => item.id === id))
+                }
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    toggleExpand(id);
+                    setSelectedItem(allMenuItems.find((item) => item.id === id));
                   }
                 }}
                 data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
@@ -188,11 +185,6 @@ const Menu = () => {
                     {name}
                   </h3>
                   <p className="text-gray-700 mb-2">{description}</p>
-
-                  {expandedItems.includes(id) && (
-                    <p className="text-gray-600 italic mb-4">{details}</p>
-                  )}
-
                   <div className="flex justify-between items-center">
                     <p className="text-yellow-700 font-bold text-xl">{price}</p>
                     <button
@@ -213,7 +205,11 @@ const Menu = () => {
         </div>
       </section>
 
-      {/* Footer with optional animation */}
+      {/* Modal for showing detail */}
+      {selectedItem && (
+        <MenuDetail item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
+
       <div data-aos="fade-up">
         <Footer />
       </div>

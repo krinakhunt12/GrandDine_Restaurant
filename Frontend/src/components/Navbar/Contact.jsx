@@ -4,8 +4,6 @@ import "aos/dist/aos.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
 
-const heroImage =
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80";
 const contactIllustration =
   "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&q=80";
 
@@ -43,7 +41,6 @@ const Contact = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
       setErrors({});
-      // Form submission logic here
       setSubmitted(true);
       setFormData({ name: "", email: "", message: "" });
     } else {
@@ -56,26 +53,21 @@ const Contact = () => {
     <div className="font-sans bg-white text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
 
-      {/* Hero Image */}
-      <div
-        className="w-full h-20 bg-cover bg-center relative pt-30 md:pt-20"
-        style={{ backgroundImage: `url(${heroImage})` }}
-        data-aos="fade-in"
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-          <h1 className="text-white text-4xl md:text-6xl font-extrabold drop-shadow-lg">
-            Contact Us
-          </h1>
-        </div>
+      {/* Simple Heading */}
+      <div className="text-center pt-8" data-aos="fade-down">
+        <h1 className="text-4xl md:text-5xl font-bold text-yellow-600 pt-12">
+          Contact Us
+        </h1>
+        <p className="text-gray-500 mt-2">We’d love to hear from you!</p>
       </div>
 
-      <main className="max-w-5xl mx-auto p-8 md:p-16 flex-grow grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        {/* Left: Contact form */}
+      <main className="max-w-5xl mx-auto p-6 md:p-16 flex-grow grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        {/* Contact Form */}
         <form
           onSubmit={handleSubmit}
           className="space-y-6"
           noValidate
-          data-aos="fade-up"
+          data-aos="fade-right"
         >
           {submitted && (
             <p className="text-green-600 font-semibold">
@@ -83,6 +75,7 @@ const Contact = () => {
             </p>
           )}
 
+          {/* Name Field */}
           <div className="relative">
             <label htmlFor="name" className="block mb-1 font-medium">
               Name
@@ -98,14 +91,12 @@ const Contact = () => {
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {/* User icon inside input */}
             <svg
               className="w-5 h-5 absolute left-3 top-9 text-gray-400 pointer-events-none"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -118,6 +109,7 @@ const Contact = () => {
             )}
           </div>
 
+          {/* Email Field */}
           <div className="relative">
             <label htmlFor="email" className="block mb-1 font-medium">
               Email
@@ -133,14 +125,12 @@ const Contact = () => {
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {/* Email icon */}
             <svg
               className="w-5 h-5 absolute left-3 top-9 text-gray-400 pointer-events-none"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -153,7 +143,8 @@ const Contact = () => {
             )}
           </div>
 
-          <div className="relative">
+          {/* Message Field */}
+          <div>
             <label htmlFor="message" className="block mb-1 font-medium">
               Message
             </label>
@@ -181,7 +172,7 @@ const Contact = () => {
           </button>
         </form>
 
-        {/* Right: Illustration */}
+        {/* Contact Illustration */}
         <div data-aos="fade-left" className="hidden md:block">
           <img
             src={contactIllustration}
