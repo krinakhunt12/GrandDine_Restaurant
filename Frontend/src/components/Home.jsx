@@ -125,14 +125,12 @@ const Home = () => {
           </h3>
           <div className="grid md:grid-cols-3 gap-12">
             {[
-{
-  name: "Grilled Salmon",
-  desc: "Fresh salmon grilled to perfection with a lemon butter sauce.",
-  image:
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
-},
-
-
+              {
+                name: "Grilled Salmon",
+                desc: "Fresh salmon grilled to perfection with a lemon butter sauce.",
+                image:
+                  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80",
+              },
 
               {
                 name: "Butter Chicken",
