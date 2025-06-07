@@ -30,4 +30,31 @@ router.post("/signup", async(req, res) => {
     }
 });
 
+
+// @route   POST /api/auth/login
+// @desc    Authenticate user & login
+// @access  Public
+router.post("/login", async(req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        // Check if user exists
+        const user = await User.findOne({ email });
+        if (!user)
+            return res.status(400).json({ message: "Email not found" });
+
+        // Compare password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch)
+            return res.status(400).json({ message: "Invalid password" });
+
+        // Login successful
+        res.json({ message: "Login successful", userId: user._id, name: user.name });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 module.exports = router;

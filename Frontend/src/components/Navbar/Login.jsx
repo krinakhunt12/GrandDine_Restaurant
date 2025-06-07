@@ -6,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState(""); // for backend error messages
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shake, setShake] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
   }, []);
@@ -33,19 +35,53 @@ const Login = () => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setServerError("");
     const validationErrors = validate();
+
     if (Object.keys(validationErrors).length === 0) {
       setErrors({});
       setLoading(true);
       setShake(false);
 
-      setTimeout(() => {
+      try {
+        const response = await fetch("http://localhost:5000/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          // If backend returns error
+          setServerError(data.message || "Login failed");
+          setSubmitted(false);
+          setShake(true);
+          setLoading(false);
+          setTimeout(() => setShake(false), 500);
+        } else {
+          // Login success
+          setSubmitted(true);
+          setLoading(false);
+          setFormData({ email: "", password: "" });
+          // Optionally store user info or token here, e.g. localStorage.setItem("token", data.token);
+
+          // Redirect after a short delay (to show message)
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        }
+      } catch (error) {
+        setServerError("Server error. Please try again later.");
         setLoading(false);
-        setSubmitted(true);
-        setFormData({ email: "", password: "" });
-      }, 1500);
+        setShake(true);
+        setTimeout(() => setShake(false), 500);
+      }
     } else {
       setErrors(validationErrors);
       setSubmitted(false);
@@ -61,7 +97,7 @@ const Login = () => {
       }`}
       data-aos="fade-up"
     >
-      {/* Image - takes half screen height and width */}
+      {/* Image */}
       <div className="w-1/2 h-screen">
         <img
           src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
@@ -69,8 +105,8 @@ const Login = () => {
           className="w-full h-full object-cover"
         />
       </div>
+
       <div className="w-1/2 h-screen flex justify-center items-center p-12">
-        {/* Form - takes half screen height and width */}
         <form
           onSubmit={handleSubmit}
           className="max-w-sm w-full flex flex-col space-y-6"
@@ -86,6 +122,12 @@ const Login = () => {
           {submitted && (
             <p className="text-green-600 font-semibold mb-4 animate-fade-in text-center">
               Login successful! Redirecting...
+            </p>
+          )}
+
+          {serverError && (
+            <p className="text-red-600 font-semibold mb-4 text-center">
+              {serverError}
             </p>
           )}
 
@@ -203,7 +245,6 @@ const Login = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            onClick={() => navigate("/")}
             disabled={loading}
             className={`bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded transition w-full flex justify-center items-center ${
               loading ? "cursor-not-allowed opacity-70" : ""
@@ -240,10 +281,7 @@ const Login = () => {
               Create an account
             </a>
             <span>|</span>
-            <a
-              href="/forgot-password"
-              className="text-yellow-600 hover:underline"
-            >
+            <a href="/forgot-password" className="text-yellow-600 hover:underline">
               Forgot password?
             </a>
           </div>
