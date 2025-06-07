@@ -72,7 +72,8 @@ const MenuDetail = ({ item, onClose }) => {
           </p>
         </div>
 
-        <div className="flex justify-between items-center sticky bottom-0 bg-white py-4">
+        <div className="flex justify-between items-center sticky bottom-0 bg-white py
+        -4">
           <p className="text-yellow-700 font-extrabold text-2xl tracking-wider">
             {item.price}
           </p>
