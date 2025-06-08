@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CheckCircle } from "lucide-react"; // icon for success feedback
+import { CheckCircle } from "lucide-react";
 
 const ReserveTable = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -18,16 +18,12 @@ const ReserveTable = ({ onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { name, email, date, time, persons, priceRange } = formData;
     if (!name || !email || !date || !time || !persons || !priceRange) {
       alert("Please fill in all fields.");
       return;
     }
-
     setSubmitted(true);
-
-    // Simulate API submission delay
     setTimeout(() => {
       setFormData({
         name: "",
@@ -43,8 +39,8 @@ const ReserveTable = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/50 bg-opacity-60 backdrop-blur-sm px-4">
-      <div className="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-2xl relative animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+      <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-3xl relative overflow-y-auto max-h-[95vh] animate-fadeIn  scrollbar-hide">
         <button
           className="absolute top-4 right-4 text-gray-600 hover:text-black text-2xl"
           onClick={onClose}
@@ -53,9 +49,10 @@ const ReserveTable = ({ onClose }) => {
           ✕
         </button>
 
-        <div className="flex flex-col lg:flex-row items-center gap-6">
+        <div className="flex flex-col-reverse lg:flex-row items-center gap-6">
+          {/* Left/Form Side */}
           <div className="w-full">
-            <h2 className="text-3xl font-extrabold text-yellow-600 mb-2 text-center lg:text-left">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-yellow-600 mb-2 text-center lg:text-left">
               {submitted ? "Thank You!" : "Reserve Your Table"}
             </h2>
             <p className="text-gray-500 text-center lg:text-left mb-6">
@@ -70,7 +67,8 @@ const ReserveTable = ({ onClose }) => {
               </div>
             ) : (
               <form className="space-y-4" onSubmit={handleSubmit}>
-                <div className="relative">
+                {/* Name */}
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Full Name
                   </label>
@@ -84,7 +82,8 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                <div className="relative">
+                {/* Email */}
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Email Address
                   </label>
@@ -98,8 +97,9 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="relative">
+                {/* Date & Time */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Date
                     </label>
@@ -111,8 +111,7 @@ const ReserveTable = ({ onClose }) => {
                       className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
                     />
                   </div>
-
-                  <div className="relative">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Time
                     </label>
@@ -126,8 +125,9 @@ const ReserveTable = ({ onClose }) => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="relative">
+                {/* Persons & Price Range */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Number of Persons
                     </label>
@@ -144,8 +144,7 @@ const ReserveTable = ({ onClose }) => {
                       ))}
                     </select>
                   </div>
-
-                  <div className="relative">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Price Range
                     </label>
@@ -162,6 +161,7 @@ const ReserveTable = ({ onClose }) => {
                   </div>
                 </div>
 
+                {/* Submit */}
                 <button
                   type="submit"
                   className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-full hover:bg-yellow-600 transition duration-200"
@@ -172,11 +172,12 @@ const ReserveTable = ({ onClose }) => {
             )}
           </div>
 
-          <div className="hidden lg:block w-full">
+          {/* Right/Image Side */}
+          <div className="w-full">
             <img
               src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
               alt="Restaurant Table"
-              className="rounded-xl shadow-lg object-cover w-full h-80"
+              className="rounded-xl shadow-lg object-cover w-full h-60 sm:h-80"
             />
           </div>
         </div>

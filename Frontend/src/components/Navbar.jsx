@@ -16,53 +16,50 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
-    // Only apply scroll listener on Home page
     if (location.pathname === "/") {
       const handleScroll = () => setScrolled(window.scrollY > 50);
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
-      // For other pages, reset scrolled state (optional)
       setScrolled(false);
     }
   }, [location.pathname]);
 
   return (
     <header
-      className={`fixed w-full z-50 transition-colors duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
         location.pathname === "/"
           ? scrolled
-            ? "bg-black bg-opacity-50 backdrop-blur-sm"
-            : "bg-opacity-70"
-          : "bg-black bg-opacity-80" // default style on other pages
+            ? "bg-black bg-opacity-70 backdrop-blur-md"
+            : "bg-transparent"
+          : "bg-black bg-opacity-90"
       }`}
     >
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        <h1 className="text-xl font-bold text-white md:text-yellow-400">GRAND DINE</h1>
+      <div className="flex justify-between items-center px-6 py-4">
+        <Link to="/" className="text-2xl font-bold text-yellow-400">
+          GRAND DINE
+        </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm text-white">
+        <nav className="hidden md:flex items-center space-x-6 text-white font-medium">
           {menuItems.map(({ name, path }) => (
             <Link
               key={name}
               to={path}
-              className="hover:text-yellow-400 transition font-medium"
-              onClick={() => setMobileMenuOpen(false)}
+              className="hover:text-yellow-400 transition"
             >
               {name}
             </Link>
           ))}
-
-          {/* Buttons */}
           <Link
             to="/login"
-            className="ml-4 px-4 py-1 border border-white rounded text-white font-medium hover:bg-white hover:text-black transition"
+            className="ml-4 px-4 py-1 border border-white rounded hover:bg-white hover:text-black transition"
           >
             Login
           </Link>
           <Link
             to="/signup"
-            className="ml-2 px-4 py-1 bg-white rounded text-black font-medium hover:bg-gray-200 transition"
+            className="ml-2 px-4 py-1 bg-white text-black rounded hover:bg-gray-200 transition"
           >
             Signup
           </Link>
@@ -71,7 +68,7 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden focus:outline-none"
+          className="md:hidden focus:outline-none z-50"
           aria-label="Toggle Menu"
         >
           <div className="w-6 h-6 relative">
@@ -96,29 +93,27 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <nav
-        className={`md:hidden fixed top-[64px] left-0 right-0 bg-yellow-400 text-black shadow-lg transform transition-transform duration-300 ${
+        className={`md:hidden fixed top-0 left-0 w-full h-screen bg-black bg-opacity-95 text-white transform transition-transform duration-300 ease-in-out ${
           mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <ul className="flex flex-col items-center space-y-6 py-6 text-lg font-semibold">
+        <ul className="flex flex-col justify-center items-center h-full space-y-8 text-lg font-semibold">
           {menuItems.map(({ name, path }) => (
             <li key={name}>
               <Link
                 to={path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-yellow-600 transition"
+                className="hover:text-yellow-400 transition"
               >
                 {name}
               </Link>
             </li>
           ))}
-
-          {/* Mobile Buttons */}
           <li>
             <Link
               to="/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-32 px-4 py-2 border border-black rounded text-black font-medium hover:bg-gray-200 transition block text-center"
+              className="w-32 px-4 py-2 border border-white text-white rounded hover:bg-white hover:text-black transition text-center"
             >
               Login
             </Link>
@@ -127,7 +122,7 @@ const Navbar = () => {
             <Link
               to="/signup"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-32 px-4 py-2 bg-black rounded text-white font-medium hover:bg-gray-800 transition block text-center"
+              className="w-32 px-4 py-2 bg-yellow-400 text-black rounded hover:bg-yellow-300 transition text-center"
             >
               Signup
             </Link>
