@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const reservationRoutes = require("./routes/reservations");
 
 const authRoutes = require("./routes/auth");
 
@@ -19,6 +20,8 @@ mongoose
 
 // Routes
 app.use("/api", authRoutes);
+// Routes
+app.use("/api/reservations", reservationRoutes);
 
 // Server
 const PORT = process.env.PORT || 5000;

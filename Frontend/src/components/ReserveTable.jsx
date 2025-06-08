@@ -16,27 +16,45 @@ const ReserveTable = ({ onClose }) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, date, time, persons, priceRange } = formData;
-    if (!name || !email || !date || !time || !persons || !priceRange) {
-      alert("Please fill in all fields.");
-      return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const { name, email, date, time, persons, priceRange } = formData;
+  if (!name || !email || !date || !time || !persons || !priceRange) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/reservations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (res.ok) {
+      setSubmitted(true);
+      setTimeout(() => {
+        setFormData({
+          name: "",
+          email: "",
+          date: "",
+          time: "",
+          persons: "1",
+          priceRange: "Moderate",
+        });
+        setSubmitted(false);
+        onClose();
+      }, 2500);
+    } else {
+      alert("Failed to submit reservation.");
     }
-    setSubmitted(true);
-    setTimeout(() => {
-      setFormData({
-        name: "",
-        email: "",
-        date: "",
-        time: "",
-        persons: "1",
-        priceRange: "Moderate",
-      });
-      setSubmitted(false);
-      onClose();
-    }, 2500);
-  };
+  } catch (err) {
+    alert("Error connecting to server.");
+  }
+};
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
