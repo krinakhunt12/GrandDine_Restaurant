@@ -106,7 +106,9 @@ const SignUp = () => {
 
       <div className="w-1/2 h-screen flex justify-center items-center p-12">
         <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-6" noValidate>
-          <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center">Sign Up</h2>
+          <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center">
+            Sign Up
+          </h2>
 
           {submitted && (
             <p className="text-green-600 text-center font-semibold">
@@ -118,9 +120,12 @@ const SignUp = () => {
           )}
 
           {/* Name */}
-          <div>
-            <label>Name</label>
+          <div className="flex flex-col items-start">
+            <label className="mb-1 font-semibold text-gray-700" htmlFor="name">
+              Name
+            </label>
             <input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
@@ -130,13 +135,16 @@ const SignUp = () => {
               }`}
               placeholder="Full name"
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           {/* Email */}
-          <div>
-            <label>Email</label>
+          <div className="flex flex-col items-start">
+            <label className="mb-1 font-semibold text-gray-700" htmlFor="email">
+              Email
+            </label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -146,13 +154,16 @@ const SignUp = () => {
               }`}
               placeholder="you@example.com"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           {/* Password */}
-          <div>
-            <label>Password</label>
+          <div className="flex flex-col items-start relative">
+            <label className="mb-1 font-semibold text-gray-700" htmlFor="password">
+              Password
+            </label>
             <input
+              id="password"
               type={showPassword ? "text" : "password"}
               name="password"
               value={formData.password}
@@ -162,16 +173,26 @@ const SignUp = () => {
               }`}
               placeholder="Password"
             />
-            <button type="button" onClick={() => setShowPassword(!showPassword)}>
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-[38px] text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
+            >
               {showPassword ? "Hide" : "Show"}
             </button>
-            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
           {/* Confirm Password */}
-          <div>
-            <label>Confirm Password</label>
+          <div className="flex flex-col items-start relative">
+            <label
+              className="mb-1 font-semibold text-gray-700"
+              htmlFor="confirmPassword"
+            >
+              Confirm Password
+            </label>
             <input
+              id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -184,29 +205,36 @@ const SignUp = () => {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-[38px] text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
             >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{errors.confirmPassword}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
             )}
           </div>
 
           {/* Remember Me */}
           <div className="flex items-center">
             <input
+              id="rememberMe"
               type="checkbox"
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
+              className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
             />
-            <label className="ml-2">Remember Me</label>
+            <label
+              htmlFor="rememberMe"
+              className="ml-2 font-medium text-gray-700 cursor-pointer"
+            >
+              Remember Me
+            </label>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            onClick={() => navigate("/")}
-            className="bg-yellow-500 text-white px-6 py-3 rounded w-full"
+            className="bg-yellow-500 text-white px-6 py-3 rounded w-full hover:bg-yellow-600 transition"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

@@ -109,7 +109,7 @@ const Login = () => {
       <div className="w-1/2 h-screen flex justify-center items-center p-12">
         <form
           onSubmit={handleSubmit}
-          className="max-w-sm w-full flex flex-col space-y-6"
+          className="max-w-sm w-full flex flex-col space-y-6 text-left"
           noValidate
         >
           <h2
@@ -133,7 +133,10 @@ const Login = () => {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block mb-1 font-medium">
+            <label
+              htmlFor="email"
+              className="block mb-1 font-medium text-left"
+            >
               Email
             </label>
             <input
@@ -155,7 +158,10 @@ const Login = () => {
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block mb-1 font-medium">
+            <label
+              htmlFor="password"
+              className="block mb-1 font-medium text-left"
+            >
               Password
             </label>
             <div className="relative">
@@ -237,7 +243,7 @@ const Login = () => {
               onChange={() => setRememberMe(!rememberMe)}
               className="h-4 w-4 text-yellow-500 focus:ring-yellow-400 border-gray-300 rounded"
             />
-            <label htmlFor="rememberMe" className="text-sm select-none">
+            <label htmlFor="rememberMe" className="text-sm select-none text-left">
               Remember me
             </label>
           </div>
