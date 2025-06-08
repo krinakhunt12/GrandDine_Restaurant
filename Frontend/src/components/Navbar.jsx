@@ -36,9 +36,10 @@ const Navbar = () => {
       }`}
     >
       <div className="flex justify-between items-center px-6 py-4">
-        <Link to="/" className="text-2xl font-bold text-yellow-400">
+        {/* <Link to="/" className="text-2xl font-bold text-yellow-400">
           GRAND DINE
-        </Link>
+        </Link> */}
+        <img src="/LOGO11.png" alt="" className="h-15"/>
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center space-x-6 text-white font-medium">

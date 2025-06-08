@@ -116,7 +116,7 @@ const Menu = () => {
       : allMenuItems.filter((item) => item.category === activeCategory);
 
   return (
-    <div className="font-sans bg-white text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
+    <div className="font-sans bg-white text-gray-800 overflow-x-hidden overflow-y-auto min-h-screen flex flex-col scrollbar-hide">
       <Navbar />
 
       <section

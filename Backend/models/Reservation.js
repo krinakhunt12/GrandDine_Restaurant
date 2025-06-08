@@ -7,6 +7,7 @@ const reservationSchema = new mongoose.Schema({
     time: String,
     persons: String,
     priceRange: String,
+    specialRequests: String,
 });
 
 module.exports = mongoose.model("Reservation", reservationSchema);
