@@ -5,6 +5,7 @@ const ReserveTable = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    mobile: "", // <-- Added
     date: "",
     time: "",
     persons: "1",
@@ -20,9 +21,9 @@ const ReserveTable = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, date, time, persons, priceRange } = formData;
+    const { name, email, mobile, date, time, persons, priceRange } = formData;
 
-    if (!name || !email || !date || !time || !persons || !priceRange) {
+    if (!name || !email || !mobile || !date || !time || !persons || !priceRange) {
       alert("Please fill in all fields.");
       return;
     }
@@ -42,6 +43,7 @@ const ReserveTable = ({ onClose }) => {
           setFormData({
             name: "",
             email: "",
+            mobile: "",
             date: "",
             time: "",
             persons: "1",
@@ -114,6 +116,21 @@ const ReserveTable = ({ onClose }) => {
                     onChange={handleChange}
                     type="email"
                     placeholder="john@example.com"
+                    className="w-full border border-gray-300 p-3 pl-4 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
+                  />
+                </div>
+
+                {/* Mobile Number */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
+                    Mobile Number
+                  </label>
+                  <input
+                    name="mobile"
+                    value={formData.mobile}
+                    onChange={handleChange}
+                    type="tel"
+                    placeholder="123-456-7890"
                     className="w-full border border-gray-300 p-3 pl-4 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
                   />
                 </div>
