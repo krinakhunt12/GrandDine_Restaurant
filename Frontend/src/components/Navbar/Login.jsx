@@ -250,6 +250,7 @@ const Login = () => {
 
           {/* Submit Button */}
           <button
+          onClick={() => navigate("/")}
             type="submit"
             disabled={loading}
             className={`bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded transition w-full flex justify-center items-center ${

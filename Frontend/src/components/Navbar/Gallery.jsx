@@ -35,6 +35,26 @@ const galleryImages = [
     src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80",
     alt: "Plated gourmet dessert",
   },
+  {
+    id: 7,
+    src: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
+    alt: "Modern restaurant interior",
+  },
+  {
+    id: 8,
+    src: "https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg?auto=format&fit=crop&w=800&q=80",
+    alt: "Open-view restaurant seating",
+  },
+  {
+    id: 9,
+    src: "https://images.pexels.com/photos/1435904/pexels-photo-1435904.jpeg?auto=format&fit=crop&w=800&q=80",
+    alt: "Cozy lounge area inside restaurant",
+  },
+  {
+    id: 10,
+    src: "https://images.pexels.com/photos/1619563/pexels-photo-1619563.jpeg?auto=format&fit=crop&w=800&q=80",
+    alt: "Industrial style restaurant interior",
+  },
 ];
 
 const Gallery = () => {

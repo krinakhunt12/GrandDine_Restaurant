@@ -17,7 +17,6 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [shake, setShake] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,18 +26,29 @@ const SignUp = () => {
 
   const validate = () => {
     const errs = {};
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
     if (!formData.name.trim()) errs.name = "Name is required";
+
     if (!formData.email.trim()) {
       errs.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errs.email = "Invalid email";
+      errs.email = "Invalid email format";
     }
-    if (!formData.password.trim()) errs.password = "Password is required";
+
+    if (!formData.password.trim()) {
+      errs.password = "Password is required";
+    } else if (!passwordRegex.test(formData.password)) {
+      errs.password =
+        "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+    }
+
     if (!formData.confirmPassword.trim()) {
       errs.confirmPassword = "Confirm Password is required";
     } else if (formData.password !== formData.confirmPassword) {
       errs.confirmPassword = "Passwords do not match";
     }
+
     return errs;
   };
 
@@ -50,62 +60,68 @@ const SignUp = () => {
     e.preventDefault();
     const validationErrors = validate();
 
-    if (Object.keys(validationErrors).length === 0) {
-      setErrors({});
-      setLoading(true);
-      setShake(false);
-
-      try {
-        const response = await fetch("http://localhost:5000/api/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-          }),
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          setSubmitted(true);
-          setFormData({ name: "", email: "", password: "", confirmPassword: "" });
-          setTimeout(() => navigate("/login"), 2000);
-        } else {
-          setErrors({ api: result.message || "Signup failed." });
-        }
-      } catch (err) {
-        setErrors({ api: "Server error. Try again later." });
-      }
-
-      setLoading(false);
-    } else {
+    if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setShake(true);
-      setTimeout(() => setShake(false), 500);
+      setSubmitted(false);
+      return;
     }
+
+    setErrors({});
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        setTimeout(() => navigate("/login"), 2000);
+      } else {
+        setErrors({ api: result.message || "Signup failed." });
+      }
+    } catch (err) {
+      setErrors({ api: "Server error. Try again later." });
+    }
+
+    setLoading(false);
   };
 
   return (
     <div
-      className={`flex w-full shadow-lg rounded-lg overflow-hidden h-screen ${
-        shake ? "animate-shake" : ""
-      }`}
+      className="flex w-full shadow-lg rounded-lg overflow-hidden h-screen"
       data-aos="fade-up"
     >
       <div className="w-1/2 h-screen">
         <img
           src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
-          alt="Restaurant"
+          alt="Restaurant view"
           className="w-full h-full object-cover"
         />
       </div>
 
       <div className="w-1/2 h-screen flex justify-center items-center p-12">
-        <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-6" noValidate>
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-sm w-full space-y-6"
+          noValidate
+        >
           <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center">
             Sign Up
           </h2>
@@ -116,7 +132,9 @@ const SignUp = () => {
             </p>
           )}
           {errors.api && (
-            <p className="text-red-600 text-center font-semibold">{errors.api}</p>
+            <p className="text-red-600 text-center font-semibold">
+              {errors.api}
+            </p>
           )}
 
           {/* Name */}
@@ -135,7 +153,9 @@ const SignUp = () => {
               }`}
               placeholder="Full name"
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -154,12 +174,17 @@ const SignUp = () => {
               }`}
               placeholder="you@example.com"
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password */}
           <div className="flex flex-col items-start relative">
-            <label className="mb-1 font-semibold text-gray-700" htmlFor="password">
+            <label
+              className="mb-1 font-semibold text-gray-700"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
@@ -180,7 +205,9 @@ const SignUp = () => {
             >
               {showPassword ? "Hide" : "Show"}
             </button>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Confirm Password */}
@@ -204,13 +231,17 @@ const SignUp = () => {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() =>
+                setShowConfirmPassword(!showConfirmPassword)
+              }
               className="absolute right-3 top-[38px] text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
             >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 

@@ -36,10 +36,7 @@ const Navbar = () => {
       }`}
     >
       <div className="flex justify-between items-center px-6 py-4">
-        {/* <Link to="/" className="text-2xl font-bold text-yellow-400">
-          GRAND DINE
-        </Link> */}
-        <img src="/LOGO11.png" alt="" className="h-15"/>
+        <img src="/LOGO11.png" alt="Logo" className="h-12" />
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center space-x-6 text-white font-medium">
@@ -54,13 +51,13 @@ const Navbar = () => {
           ))}
           <Link
             to="/login"
-            className="ml-4 px-4 py-1 border border-white rounded hover:bg-white hover:text-black transition"
+            className="ml-4 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 shadow-sm"
           >
             Login
           </Link>
           <Link
             to="/signup"
-            className="ml-2 px-4 py-1 bg-white text-black rounded hover:bg-gray-200 transition"
+            className="ml-3 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 shadow-md font-semibold"
           >
             Signup
           </Link>
@@ -114,7 +111,7 @@ const Navbar = () => {
             <Link
               to="/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-32 px-4 py-2 border border-white text-white rounded hover:bg-white hover:text-black transition text-center"
+              className="w-40 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 text-center shadow-sm"
             >
               Login
             </Link>
@@ -123,7 +120,7 @@ const Navbar = () => {
             <Link
               to="/signup"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-32 px-4 py-2 bg-yellow-400 text-black rounded hover:bg-yellow-300 transition text-center"
+              className="w-40 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
             >
               Signup
             </Link>
