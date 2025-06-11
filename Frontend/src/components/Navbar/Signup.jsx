@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +12,6 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,6 +20,7 @@ const SignUp = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth(); // ✅ Set login state
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -29,22 +31,19 @@ const SignUp = () => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     if (!formData.name.trim()) errs.name = "Name is required";
-
     if (!formData.email.trim()) {
       errs.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errs.email = "Invalid email format";
     }
-
     if (!formData.password.trim()) {
       errs.password = "Password is required";
     } else if (!passwordRegex.test(formData.password)) {
       errs.password =
-        "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+        "At least 8 chars with upper, lower, number & special char.";
     }
-
     if (!formData.confirmPassword.trim()) {
-      errs.confirmPassword = "Confirm Password is required";
+      errs.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
       errs.confirmPassword = "Passwords do not match";
     }
@@ -52,14 +51,12 @@ const SignUp = () => {
     return errs;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSubmitted(false);
@@ -72,27 +69,26 @@ const SignUp = () => {
     try {
       const response = await fetch("http://localhost:5000/api/signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           password: formData.password,
         }),
       });
-
       const result = await response.json();
 
       if (response.ok) {
         setSubmitted(true);
+        setIsLoggedIn(true); // ✅ Mark user as logged in
         setFormData({
           name: "",
           email: "",
           password: "",
           confirmPassword: "",
         });
-        setTimeout(() => navigate("/login"), 2000);
+
+        setTimeout(() => navigate("/"), 2000);
       } else {
         setErrors({ api: result.message || "Signup failed." });
       }
@@ -110,8 +106,8 @@ const SignUp = () => {
     >
       <div className="w-1/2 h-screen">
         <img
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
-          alt="Restaurant view"
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+          alt="Restaurant"
           className="w-full h-full object-cover"
         />
       </div>
@@ -122,7 +118,10 @@ const SignUp = () => {
           className="max-w-sm w-full space-y-6"
           noValidate
         >
-          <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center">
+          <h2
+            className="text-4xl font-extrabold text-yellow-600 mb-8 text-center"
+            data-aos="fade-down"
+          >
             Sign Up
           </h2>
 
@@ -137,71 +136,67 @@ const SignUp = () => {
             </p>
           )}
 
-          {/* Name */}
+          {/* Name Field */}
           <div className="flex flex-col items-start">
-            <label className="mb-1 font-semibold text-gray-700" htmlFor="name">
+            <label htmlFor="name" className="font-medium text-gray-700">
               Name
             </label>
             <input
               id="name"
-              type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full border rounded px-4 py-2 ${
+              placeholder="Full name"
+              className={`w-full border rounded px-4 py-2 mt-1 ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Full name"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name}</p>
             )}
           </div>
 
-          {/* Email */}
+          {/* Email Field */}
           <div className="flex flex-col items-start">
-            <label className="mb-1 font-semibold text-gray-700" htmlFor="email">
+            <label htmlFor="email" className="font-medium text-gray-700">
               Email
             </label>
             <input
               id="email"
-              type="email"
               name="email"
+              type="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full border rounded px-4 py-2 ${
+              placeholder="you@example.com"
+              className={`w-full border rounded px-4 py-2 mt-1 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="you@example.com"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
             )}
           </div>
 
-          {/* Password */}
+          {/* Password Field */}
           <div className="flex flex-col items-start relative">
-            <label
-              className="mb-1 font-semibold text-gray-700"
-              htmlFor="password"
-            >
+            <label htmlFor="password" className="font-medium text-gray-700">
               Password
             </label>
             <input
               id="password"
-              type={showPassword ? "text" : "password"}
               name="password"
+              type={showPassword ? "text" : "password"}
               value={formData.password}
               onChange={handleChange}
-              className={`w-full border rounded px-4 py-2 ${
+              placeholder="Password"
+              className={`w-full border rounded px-4 py-2 mt-1 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Password"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-[38px] text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
+              className="absolute right-3 top-11 text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
@@ -210,31 +205,29 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* Confirm Password */}
+          {/* Confirm Password Field */}
           <div className="flex flex-col items-start relative">
             <label
-              className="mb-1 font-semibold text-gray-700"
               htmlFor="confirmPassword"
+              className="font-medium text-gray-700"
             >
               Confirm Password
             </label>
             <input
               id="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={`w-full border rounded px-4 py-2 ${
+              placeholder="Re-enter Password"
+              className={`w-full border rounded px-4 py-2 mt-1 ${
                 errors.confirmPassword ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="Re-enter Password"
             />
             <button
               type="button"
-              onClick={() =>
-                setShowConfirmPassword(!showConfirmPassword)
-              }
-              className="absolute right-3 top-[38px] text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-11 text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
             >
               {showConfirmPassword ? "Hide" : "Show"}
             </button>
@@ -254,10 +247,7 @@ const SignUp = () => {
               onChange={() => setRememberMe(!rememberMe)}
               className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
             />
-            <label
-              htmlFor="rememberMe"
-              className="ml-2 font-medium text-gray-700 cursor-pointer"
-            >
+            <label htmlFor="rememberMe" className="ml-2 font-medium text-gray-700">
               Remember Me
             </label>
           </div>
@@ -272,9 +262,9 @@ const SignUp = () => {
 
           <p className="text-center text-sm">
             Already have an account?{" "}
-            <a href="/login" className="text-yellow-600 underline">
+            <Link to="/login" className="text-yellow-600 underline">
               Login
-            </a>
+            </Link>
           </p>
         </form>
       </div>

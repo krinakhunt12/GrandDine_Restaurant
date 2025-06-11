@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
 
   const menuItems = [
     { name: "Home", path: "/" },
@@ -24,6 +26,11 @@ const Navbar = () => {
       setScrolled(false);
     }
   }, [location.pathname]);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -49,18 +56,29 @@ const Navbar = () => {
               {name}
             </Link>
           ))}
-          <Link
-            to="/login"
-            className="ml-4 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 shadow-sm"
-          >
-            Login
-          </Link>
-          <Link
-            to="/signup"
-            className="ml-3 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 shadow-md font-semibold"
-          >
-            Signup
-          </Link>
+          {!isLoggedIn ? (
+            <>
+              <Link
+                to="/login"
+                className="ml-4 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 shadow-sm"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="ml-3 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 shadow-md font-semibold"
+              >
+                Signup
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={handleLogout}
+              className="ml-4 px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 shadow-md font-semibold"
+            >
+              Logout
+            </button>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -107,24 +125,37 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
-          <li>
-            <Link
-              to="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-40 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 text-center shadow-sm"
-            >
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/signup"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-40 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
-            >
-              Signup
-            </Link>
-          </li>
+          {!isLoggedIn ? (
+            <>
+              <li>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-40 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 text-center shadow-sm"
+                >
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/signup"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-40 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
+                >
+                  Signup
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-40 px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 text-center shadow-md font-semibold"
+              >
+                Logout
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

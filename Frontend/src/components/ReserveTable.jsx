@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { CheckCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Adjust path if needed
 
 const ReserveTable = ({ onClose }) => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    mobile: "", // <-- Added
+    mobile: "",
     date: "",
     time: "",
     persons: "1",
@@ -21,6 +26,14 @@ const ReserveTable = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // ✅ Redirect if not logged in
+    if (!isLoggedIn) {
+      alert("Please login to make a reservation.");
+      navigate("/login");
+      return;
+    }
+
     const { name, email, mobile, date, time, persons, priceRange } = formData;
 
     if (!name || !email || !mobile || !date || !time || !persons || !priceRange) {
@@ -90,7 +103,6 @@ const ReserveTable = ({ onClose }) => {
               </div>
             ) : (
               <form className="space-y-4 text-left" onSubmit={handleSubmit}>
-                {/* Name */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                     Full Name
@@ -105,7 +117,6 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                {/* Email */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                     Email Address
@@ -120,7 +131,6 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                {/* Mobile Number */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                     Mobile Number
@@ -135,7 +145,6 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                {/* Date & Time */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
@@ -163,7 +172,6 @@ const ReserveTable = ({ onClose }) => {
                   </div>
                 </div>
 
-                {/* Persons & Price Range */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
@@ -199,7 +207,6 @@ const ReserveTable = ({ onClose }) => {
                   </div>
                 </div>
 
-                {/* Special Requests */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
                     Special Requests (Optional)
@@ -214,7 +221,6 @@ const ReserveTable = ({ onClose }) => {
                   />
                 </div>
 
-                {/* Submit */}
                 <button
                   type="submit"
                   className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-full hover:bg-yellow-600 transition duration-200"
@@ -225,7 +231,6 @@ const ReserveTable = ({ onClose }) => {
             )}
           </div>
 
-          {/* Right/Image Side */}
           <div className="w-full">
             <img
               src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"

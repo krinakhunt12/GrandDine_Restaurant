@@ -2,17 +2,19 @@ import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
-  const [serverError, setServerError] = useState(""); // for backend error messages
+  const [serverError, setServerError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [shake, setShake] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth(); // ⬅️ Context usage
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -37,14 +39,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setServerError("");
+    setShake(false);
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length === 0) {
       setErrors({});
       setLoading(true);
-      setShake(false);
 
       try {
         const response = await fetch("http://localhost:5000/api/login", {
@@ -58,20 +59,17 @@ const Login = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          // If backend returns error
           setServerError(data.message || "Login failed");
           setSubmitted(false);
           setShake(true);
           setLoading(false);
           setTimeout(() => setShake(false), 500);
         } else {
-          // Login success
+          setIsLoggedIn(true); // ✅ Set login state
           setSubmitted(true);
           setLoading(false);
           setFormData({ email: "", password: "" });
-          // Optionally store user info or token here, e.g. localStorage.setItem("token", data.token);
 
-          // Redirect after a short delay (to show message)
           setTimeout(() => {
             navigate("/");
           }, 1500);
@@ -97,11 +95,10 @@ const Login = () => {
       }`}
       data-aos="fade-up"
     >
-      {/* Image */}
       <div className="w-1/2 h-screen">
         <img
           src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
-          alt="Cozy restaurant interior"
+          alt="Restaurant"
           className="w-full h-full object-cover"
         />
       </div>
@@ -112,10 +109,7 @@ const Login = () => {
           className="max-w-sm w-full flex flex-col space-y-6 text-left"
           noValidate
         >
-          <h2
-            className="text-4xl font-extrabold text-yellow-600 mb-8 text-center"
-            data-aos="fade-down"
-          >
+          <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center" data-aos="fade-down">
             Login
           </h2>
 
@@ -131,12 +125,8 @@ const Login = () => {
             </p>
           )}
 
-          {/* Email */}
           <div>
-            <label
-              htmlFor="email"
-              className="block mb-1 font-medium text-left"
-            >
+            <label htmlFor="email" className="block mb-1 font-medium">
               Email
             </label>
             <input
@@ -156,12 +146,8 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password */}
           <div>
-            <label
-              htmlFor="password"
-              className="block mb-1 font-medium text-left"
-            >
+            <label htmlFor="password" className="block mb-1 font-medium">
               Password
             </label>
             <div className="relative">
@@ -234,7 +220,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Remember Me */}
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
@@ -243,14 +228,12 @@ const Login = () => {
               onChange={() => setRememberMe(!rememberMe)}
               className="h-4 w-4 text-yellow-500 focus:ring-yellow-400 border-gray-300 rounded"
             />
-            <label htmlFor="rememberMe" className="text-sm select-none text-left">
+            <label htmlFor="rememberMe" className="text-sm select-none">
               Remember me
             </label>
           </div>
 
-          {/* Submit Button */}
           <button
-          onClick={() => navigate("/")}
             type="submit"
             disabled={loading}
             className={`bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded transition w-full flex justify-center items-center ${
@@ -282,7 +265,6 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          {/* Links */}
           <div className="text-center mt-4 text-sm text-gray-600 space-x-4">
             <a href="/signup" className="text-yellow-600 hover:underline">
               Create an account
