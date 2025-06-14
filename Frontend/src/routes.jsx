@@ -1,7 +1,7 @@
 // src/routes.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./components/Pages/Home";
 import About from "./components/Navbar/About";
 import Menu from "./components/Navbar/Menu";
 import Events from "./components/Navbar/Events";
@@ -9,7 +9,7 @@ import Gallery from "./components/Navbar/Gallery";
 import Contact from "./components/Navbar/Contact";
 import Login from "./components/Navbar/Login";
 import Signup from "./components/Navbar/Signup";
-
+import Cart from "./components/Navbar/Cart";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />
@@ -20,6 +20,7 @@ const AppRoutes = () => (
     <Route path="/contact" element={<Contact />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
+    <Route path="/cart" element={<Cart />} />
   </Routes>
 );
 

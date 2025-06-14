@@ -1,106 +1,17 @@
+// Menu.jsx
 import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import MenuDetail from "../MenuDetail";  // Import the detail modal component
-
-const allMenuItems = [
-  {
-    id: 1,
-    category: "Starters",
-    name: "Bruschetta",
-    description:
-      "Grilled bread rubbed with garlic, topped with diced tomatoes, basil, and olive oil.",
-    price: "$8",
-    details: "Contains gluten and garlic. Perfect light starter for your meal.",
-    image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 2,
-    category: "Mains",
-    name: "Grilled Salmon",
-    description:
-      "Fresh salmon grilled to perfection with a lemon butter sauce.",
-    price: "$22",
-    details:
-      "Sustainably sourced Atlantic salmon, served with seasonal vegetables.",
-    image:
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 3,
-    category: "Mains",
-    name: "Ribeye Steak",
-    description:
-      "Juicy ribeye steak cooked medium-rare with garlic mashed potatoes.",
-    price: "$35",
-    details:
-      "Grass-fed beef, cooked to your liking, served with creamy mashed potatoes.",
-    image:
-      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 4,
-    category: "Salads",
-    name: "Caesar Salad",
-    description:
-      "Crisp romaine lettuce with creamy Caesar dressing, croutons, and parmesan.",
-    price: "$12",
-    details:
-      "Contains dairy and gluten. Option to add grilled chicken or shrimp.",
-    image:
-      "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 5,
-    category: "Pizza",
-    name: "Margherita Pizza",
-    description:
-      "Classic pizza with fresh tomatoes, mozzarella, basil, and olive oil.",
-    price: "$18",
-    details:
-      "Thin crust pizza baked in a wood-fired oven. Vegetarian-friendly.",
-    image:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 6,
-    category: "Desserts",
-    name: "Tiramisu",
-    description:
-      "Classic Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream.",
-    price: "$10",
-    details: "Contains dairy, eggs, and gluten. Not suitable for vegans.",
-    image:
-      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: 7,
-    category: "Drinks",
-    name: "Fresh Lemonade",
-    description: "Refreshing homemade lemonade with a hint of mint.",
-    price: "$6",
-    details: "Non-alcoholic, vegan-friendly.",
-    image:
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
-  },
-];
-
-const categories = [
-  "All",
-  "Starters",
-  "Mains",
-  "Salads",
-  "Pizza",
-  "Desserts",
-  "Drinks",
-];
+import MenuDetail from "../MenuDetail";
+import { FaShoppingCart, FaHeart } from "react-icons/fa";
+import {allMenuItems, categories} from "../../constants/menuData";
 
 const Menu = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState(null);
+  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -109,6 +20,12 @@ const Menu = () => {
   useEffect(() => {
     AOS.refresh();
   }, [activeCategory]);
+
+  const toggleWishlist = (id) => {
+    setWishlist((prev) =>
+      prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
+    );
+  };
 
   const filteredMenuItems =
     activeCategory === "All"
@@ -155,60 +72,67 @@ const Menu = () => {
 
         {/* Menu Items Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {filteredMenuItems.map(
-            ({ id, name, description, price, image }, index) => (
-              <article
-                key={id}
-                className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 cursor-pointer focus:outline-yellow-400"
-                tabIndex={0}
-                aria-label={`${name} - ${description} - Price ${price}`}
-                onClick={() =>
-                  setSelectedItem(allMenuItems.find((item) => item.id === id))
+          {filteredMenuItems.map(({ id, name, description, price, image }, index) => (
+            <article
+              key={id}
+              className="bg-yellow-50 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 cursor-pointer focus:outline-yellow-400 flex flex-col"
+              tabIndex={0}
+              aria-label={`${name} - ${description} - Price ${price}`}
+              onClick={() => setSelectedItem(allMenuItems.find((item) => item.id === id))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelectedItem(allMenuItems.find((item) => item.id === id));
                 }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelectedItem(allMenuItems.find((item) => item.id === id));
-                  }
-                }}
-                data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
-                data-aos-delay={`${index * 100}`}
-              >
-                <img
-                  src={image}
-                  alt={name}
-                  className="w-full h-64 object-cover"
-                  loading="lazy"
-                />
-                <div className="p-6">
-                  <h3 className="text-2xl font-semibold text-yellow-600 mb-2">
-                    {name}
-                  </h3>
-                  <p className="text-gray-700 mb-2">{description}</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-yellow-700 font-bold text-xl">{price}</p>
+              }}
+              data-aos={index % 2 === 0 ? "fade-left" : "fade-right"}
+              data-aos-delay={`${index * 100}`}
+            >
+              <img
+                src={image}
+                alt={name}
+                className="w-full h-64 object-cover"
+                loading="lazy"
+              />
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-2xl font-semibold text-yellow-600 mb-2">{name}</h3>
+                <p className="text-gray-700 mb-4">{description}</p>
+                <div className="flex-grow"></div>
+
+                {/* Footer with Price, Heart, and Cart */}
+                <div className="flex justify-between items-center">
+                  <p className="text-yellow-700 font-bold text-xl">{price}</p>
+                  <div className="flex items-center">
+                    <FaHeart
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleWishlist(id);
+                      }}
+                      className={`text-xl cursor-pointer mx-3 hover:scale-110 transition-transform ${
+                        wishlist.includes(id) ? "text-red-500" : "text-gray-300"
+                      }`}
+                      title={wishlist.includes(id) ? "Remove from wishlist" : "Add to wishlist"}
+                    />
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        alert(`Added ${name} to favorites!`);
+                        alert(`Added ${name} to cart!`);
                       }}
-                      className="px-4 py-1 bg-yellow-400 rounded hover:bg-yellow-500 text-white font-semibold transition"
-                      aria-label={`Add ${name} to favorites`}
+                      className="px-4 py-1 bg-yellow-400 rounded hover:bg-yellow-500 text-white font-semibold transition flex flex-row items-center"
+                      aria-label={`Add ${name} to cart`}
                     >
-                      ★ Favorite
+                      <FaShoppingCart className="mr-2" />
+                      Add To Cart
                     </button>
                   </div>
                 </div>
-              </article>
-            )
-          )}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      {/* Modal for showing detail */}
-      {selectedItem && (
-        <MenuDetail item={selectedItem} onClose={() => setSelectedItem(null)} />
-      )}
+      {selectedItem && <MenuDetail item={selectedItem} onClose={() => setSelectedItem(null)} />}
 
       <div data-aos="fade-up">
         <Footer />

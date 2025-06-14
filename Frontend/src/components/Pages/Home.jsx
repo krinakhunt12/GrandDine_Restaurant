@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import "../index.css"; // Tailwind + globals
-import Footer from "./Footer";
-import ReserveTable from "./ReserveTable";
-import Navbar from "./Navbar";
+import Footer from "../Footer";
+import ReserveTable from "../ReserveTable";
+import Navbar from "../Navbar";
 const Home = () => {
   const [showReservation, setShowReservation] = useState(false);
   const navigate = useNavigate();
@@ -47,7 +46,7 @@ const Home = () => {
         }}
       >
         <div className="z-10 text-center px-6 max-w-3xl" data-aos="fade-up">
-          <h2 className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-lg">
+          <h2 className="text-5xl md:text-7xl font-extrabold text-white leading-tight drop-shadow-lg font-garamond" >
             Experience Fine Dining
           </h2>
           <p className="mt-4 text-xl text-gray-200 font-medium tracking-wide">
