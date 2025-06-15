@@ -2,14 +2,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Pages/Home";
-import About from "./components/Navbar/About";
-import Menu from "./components/Navbar/Menu";
-import Events from "./components/Navbar/Events";
-import Gallery from "./components/Navbar/Gallery";
-import Contact from "./components/Navbar/Contact";
-import Login from "./components/Navbar/Login";
-import Signup from "./components/Navbar/Signup";
-import Cart from "./components/Navbar/Cart";
+import About from "./components/Pages/About";
+import Menu from "./components/Pages/Menu";
+import Events from "./components/Pages/Events";
+import Gallery from "./components/Pages/Gallery";
+import Contact from "./components/Pages/Contact";
+import Login from "./components/Pages/Login";
+import Signup from "./components/Pages/Signup";
+import Cart from "./components/Pages/Cart";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Home />} />

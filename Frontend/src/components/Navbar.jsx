@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FaShoppingCart } from "react-icons/fa";
-import Cart from "./Navbar/Cart";
+
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -19,12 +19,17 @@ const Navbar = () => {
   ];
 
   useEffect(() => {
+    const handleScroll = () => {
+      // Set scrolled true if user scrolls down 100px
+      setScrolled(window.scrollY > 100);
+    };
+
     if (location.pathname === "/") {
-      const handleScroll = () => setScrolled(window.scrollY > 50);
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
-      setScrolled(false);
+      // Always apply blur for non-home pages
+      setScrolled(true);
     }
   }, [location.pathname]);
 
@@ -33,19 +38,13 @@ const Navbar = () => {
     setMobileMenuOpen(false);
   };
 
-  const handleCartClick = () => {
-    setShowCart(!showCart);
-  };
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
-          location.pathname === "/"
-            ? scrolled
-              ? "bg-black bg-opacity-70 backdrop-blur-md"
-              : "bg-transparent"
-            : "bg-black bg-opacity-90"
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-transparent bg-opacity-30 backdrop-blur-md"
+            : "bg-transparent"
         }`}
       >
         <div className="flex justify-between items-center px-6 py-4">
@@ -57,33 +56,32 @@ const Navbar = () => {
               <Link
                 key={name}
                 to={path}
-                className="hover:text-yellow-400 transition"
+                className="hover:heading-secondary transition"
               >
                 {name}
               </Link>
             ))}
 
             {/* Cart Button */}
-    <Link
-  to="/cart"
-  className="ml-4 text-white hover:text-yellow-400 transition"
-  aria-label="Cart"
->
-  <FaShoppingCart className="text-2xl" />
-</Link>
-
+            <Link
+              to="/cart"
+              className="ml-4 text-white hover:heading-secondary transition"
+              aria-label="Cart"
+            >
+              <FaShoppingCart className="text-2xl" />
+            </Link>
 
             {!isLoggedIn ? (
               <>
                 <Link
                   to="/login"
-                  className="ml-4 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 shadow-sm"
+                  className="ml-4 px-5 py-2 border heading-secondary border-secondary rounded-full hover:button-secondary hover:text-black transition duration-300 shadow-sm"
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="ml-3 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 shadow-md font-semibold"
+                  className="ml-3 px-5 py-2 button-secondary text-black rounded-full hover:bg-yellow-300 transition duration-300 shadow-md font-semibold"
                 >
                   Signup
                 </Link>
@@ -136,25 +134,22 @@ const Navbar = () => {
                 <Link
                   to={path}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="hover:text-yellow-400 transition"
+                  className="hover:heading-secondary transition"
                 >
                   {name}
                 </Link>
               </li>
             ))}
 
-            {/* Cart Button - Mobile */}
-       <li>
-  <Link
-    to="/cart"
-    onClick={() => setMobileMenuOpen(false)}
-    className="text-white hover:text-yellow-400 transition"
-    aria-label="Cart"
-  >
-    <FaShoppingCart className="text-2xl" />
-  </Link>
-</li>
-
+            <li>
+              <Link
+                to="/cart"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-white hover:heading-secondary transition"
+              >
+                <FaShoppingCart className="text-2xl" />
+              </Link>
+            </li>
 
             {!isLoggedIn ? (
               <>
@@ -162,7 +157,7 @@ const Navbar = () => {
                   <Link
                     to="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-40 px-5 py-2 border border-yellow-400 text-yellow-400 rounded-full hover:bg-yellow-400 hover:text-black transition duration-300 text-center shadow-sm"
+                    className="w-40 px-5 py-2 border heading-secondary heading-secondary rounded-full hover:button-secondary hover:text-black transition duration-300 text-center shadow-sm"
                   >
                     Login
                   </Link>
@@ -171,7 +166,7 @@ const Navbar = () => {
                   <Link
                     to="/signup"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-40 px-5 py-2 bg-yellow-400 text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
+                    className="w-40 px-5 py-2 button-secondary text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
                   >
                     Signup
                   </Link>
@@ -190,8 +185,6 @@ const Navbar = () => {
           </ul>
         </nav>
       </header>
-
- 
     </>
   );
 };

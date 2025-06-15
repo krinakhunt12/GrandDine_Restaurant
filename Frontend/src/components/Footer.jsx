@@ -20,20 +20,20 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-50 text-gray-700 pt-10 pb-6">
+    <footer className="bg-dark-navy text-white pt-14 pb-6">
       <div className="max-w-6xl mx-auto px-4 grid gap-10 sm:grid-cols-2 md:grid-cols-4 text-center md:text-left">
         {/* Column 1: Branding & Social */}
         <div className="space-y-3">
-          <h2 className="text-2xl font-extrabold text-yellow-500 tracking-wider">
+          <h2 className="text-2xl font-extrabold text-secondary tracking-wider">
             GRAND DINE
           </h2>
-          <p className="text-sm text-gray-600">Luxury Dining & Banquets</p>
+          <p className="text-sm text-gray-300">Luxury Dining & Banquets</p>
 
-          <div className="flex justify-center md:justify-start space-x-5 mt-4 text-yellow-500">
+          <div className="flex justify-center md:justify-start space-x-5 mt-4 text-secondary">
             <a
               href="https://facebook.com"
               aria-label="Facebook"
-              className="hover:text-yellow-600 transition transform hover:scale-110"
+              className="hover:text-yellow-500 transition transform hover:scale-110"
               target="_blank"
               rel="noreferrer"
             >
@@ -42,7 +42,7 @@ const Footer = () => {
             <a
               href="https://twitter.com"
               aria-label="Twitter"
-              className="hover:text-yellow-600 transition transform hover:scale-110"
+              className="hover:text-yellow-500 transition transform hover:scale-110"
               target="_blank"
               rel="noreferrer"
             >
@@ -51,7 +51,7 @@ const Footer = () => {
             <a
               href="https://instagram.com"
               aria-label="Instagram"
-              className="hover:text-yellow-600 transition transform hover:scale-110"
+              className="hover:text-yellow-500 transition transform hover:scale-110"
               target="_blank"
               rel="noreferrer"
             >
@@ -62,40 +62,50 @@ const Footer = () => {
 
         {/* Column 2: Quick Links */}
         <div>
-          <h3 className="font-semibold mb-4 text-lg">Quick Links</h3>
+          <h3 className="font-semibold mb-4 text-lg text-secondary">
+            Quick Links
+          </h3>
           <ul className="space-y-2 text-sm">
-            {["Home", "About", "Menu", "Events", "Gallery", "Contact"].map((item) => (
-              <li key={item}>
-                <a
-                  href={`#${item.toLowerCase()}`}
-                  className="relative inline-block group text-gray-700 hover:text-yellow-500 transition"
-                >
-                  {item}
-                  <span
-                    className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-500 transition-all group-hover:w-full"
-                    aria-hidden="true"
-                  />
-                </a>
-              </li>
-            ))}
+            {["Home", "About", "Menu", "Events", "Gallery", "Contact"].map(
+              (item) => (
+                <li key={item}>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="relative inline-block group text-gray-300 hover:text-secondary transition"
+                  >
+                    {item}
+                    <span
+                      className="absolute left-0 -bottom-1 w-0 h-0.5 bg-secondary transition-all group-hover:w-full"
+                      aria-hidden="true"
+                    />
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </div>
 
         {/* Column 3: Contact */}
         <div>
-          <h3 className="font-semibold mb-4 text-lg">Contact</h3>
-          <p className="text-sm mb-1">123 Luxury Ave, Food City</p>
-          <p className="text-sm mb-1">Phone: (123) 456-7890</p>
-          <p className="text-sm mb-1 flex justify-center md:justify-start items-center gap-2">
-            <FaEnvelope className="text-yellow-500" />
+          <h3 className="font-semibold mb-4 text-lg text-secondary">
+            Contact
+          </h3>
+          <p className="text-sm mb-1 text-gray-300">
+            123 Luxury Ave, Food City
+          </p>
+          <p className="text-sm mb-1 text-gray-300">Phone: (123) 456-7890</p>
+          <p className="text-sm mb-1 flex justify-center md:justify-start items-center gap-2 text-gray-300">
+            <FaEnvelope className="text-secondary" />
             info@granddine.com
           </p>
         </div>
 
         {/* Column 4: Newsletter */}
         <div>
-          <h3 className="font-semibold mb-4 text-lg">Newsletter</h3>
-          <p className="text-sm mb-3">
+          <h3 className="font-semibold mb-4 text-lg text-secondary">
+            Newsletter
+          </h3>
+          <p className="text-sm mb-3 text-gray-300">
             Subscribe to get the latest offers & updates.
           </p>
           <form
@@ -108,18 +118,18 @@ const Footer = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="px-4 py-2 rounded-lg border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-300 transition outline-none w-full sm:w-auto"
+              className="px-4 py-2 rounded-lg border border-gray-600 bg-[#0f1c28] text-white focus:border-secondary focus:ring-2 focus:ring-yellow-300 transition outline-none w-full sm:w-auto"
               aria-label="Email address"
             />
             <button
               type="submit"
-              className="bg-yellow-500 text-white px-5 py-2 rounded-lg font-semibold hover:bg-yellow-600 transition shadow-md w-full sm:w-auto"
+              className="bg-secondary text-black px-5 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition shadow-md w-full sm:w-auto"
             >
               Subscribe
             </button>
           </form>
           {submitted && (
-            <p className="mt-3 text-green-600 font-medium text-sm">
+            <p className="mt-3 text-green-400 font-medium text-sm">
               Thank you for subscribing!
             </p>
           )}
