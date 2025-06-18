@@ -25,7 +25,7 @@ const ChefRecommend = ({ scrollY }) => {
           <img
             src="/home/menu-leaf.png"
             alt="Leaf"
-            className="absolute top-24 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[400px] z-0 opacity-70"
+            className="absolute top-32 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[400px] z-0 opacity-70"
           />
           <img
             src="/home/bowl.jpg"

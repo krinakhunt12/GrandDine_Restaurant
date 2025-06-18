@@ -5,127 +5,150 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 
 const About = () => {
-
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
 
   return (
-    <div className="font-sans bg-dark-navy text-gray-800 overflow-x-hidden">
+    <div className="font-sans bg-dark-navy text-gray-100 overflow-x-hidden">
       <Navbar />
 
-      <div className="relative bg-dark-navy text-white py-24 overflow-hidden">
-  {/* Left leaf image */}
-  <img
-    src="/About/about-leaf-left.png" // adjust path if needed
-    alt="Leaf left"
-    className="absolute left-0 top-0 w-64 md:w-80 lg:w-96 opacity-60 pointer-events-none"
-    style={{ transform: 'translateY(-20%)' }}
-  />
+      {/* Hero Banner */}
+      <div className="relative bg-dark-navy text-white py-32 overflow-hidden">
+        {/* Leaf Images */}
+        <img
+          src="/About/about-leaf-left.png"
+          alt="Leaf left"
+          className="absolute left-0 top-0 w-64 md:w-80 lg:w-96 opacity-40 pointer-events-none"
+          style={{ transform: "translateY(-10%)" }}
+        />
+        <img
+          src="/About/about-leaf-right.png"
+          alt="Leaf right"
+          className="absolute right-[-50px] top-0 w-64 md:w-130 lg:w-130 opacity-40 rotate-180 pointer-events-none"
+          style={{ transform: "translateY(-10%)" }}
+        />
 
-  {/* Right leaf image */}
-  <img
-    src="/About/about-leaf-right.png" // reuse same image or another
-    alt="Leaf right"
-    className="absolute right-0 top-0 w-64 md:w-80 lg:w-96 opacity-60 rotate-180 pointer-events-none"
-    style={{ transform: 'translateY(-20%)' }}
-  />
+        <div className="relative z-10 text-center px-6">
+          <p className="uppercase tracking-widest text-sm text-secondary mb-3">
+            More flavor for less
+          </p>
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
+            Good food and <br /> Great vibes
+          </h1>
+        </div>
+      </div>
 
-  <div className="relative z-10 text-center px-4">
-    <p className="uppercase tracking-widest text-sm text-gray-300 mb-2">
-      More flavor for less
-    </p>
-    <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-      Good food and <br /> Great vibes
-    </h1>
-  </div>
-</div>
+      <div className="py-48">
+        <div className="relative w-full flex justify-center z-10">
+          <img
+            src="/home/menu-leaf.png"
+            alt="Leaf"
+            className="absolute top-48 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] z-0 opacity-70"
+          />
+          <img
+            src="/home/bowl.jpg"
+            alt="Chef Recommended Dish"
+            className="w-100 h-100 object-cover rounded-full shadow-2xl relative z-10 transition-transform duration-200"
+            style={{
+              transform: `translateY(${Math.min(scrollY * 0.05, 10)}px)`,
+            }}
+          />
+        </div>
+      </div>
 
-
+      {/* About Section */}
       <section
         id="about"
-        className="max-w-6xl mx-auto p-8 md:p-16 space-y-12"
+        className="max-w-6xl mx-auto px-6 py-24 space-y-24 text-gray-300"
         aria-label="About Grand Dine"
       >
+        {/* Section Title */}
         <h2
-          className="text-5xl font-extrabold my-8 text-yellow-600 text-center"
+          className="text-5xl md:text-6xl font-extrabold text-secondary text-center tracking-widest uppercase"
           data-aos="fade-down"
         >
           About Grand Dine
         </h2>
 
+        {/* First Row */}
         <div
           className="grid md:grid-cols-2 gap-12 items-center"
           data-aos="fade-right"
         >
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
-              alt="Elegant dining setup"
-              className="rounded-2xl shadow-lg w-full object-cover h-96"
-            />
-          </div>
-          <div className="space-y-6 text-lg text-gray-700">
+          <img
+            src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+            alt="Elegant dining setup"
+            className="rounded-3xl shadow-2xl w-full h-96 object-cover"
+          />
+          <div className="space-y-6 text-base md:text-lg leading-relaxed tracking-normal">
             <p>
-              At <strong>Grand Dine</strong>, we believe dining is an experience,
-              not just a meal. Nestled in the heart of the city, our restaurant
-              offers a luxurious ambiance paired with a commitment to exceptional
-              culinary craftsmanship.
+              At{" "}
+              <strong className="text-secondary font-semibold">
+                Grand Dine
+              </strong>
+              , we believe dining is an experience, not just a meal. Nestled in
+              the heart of the city, our restaurant offers a luxurious ambiance
+              paired with exceptional culinary craftsmanship.
             </p>
             <p>
-              Our chefs expertly blend traditional techniques with modern flair,
-              sourcing the freshest local and international ingredients to create
-              seasonal menus that delight every palate.
+              Our chefs blend traditional techniques with modern flair, sourcing
+              fresh local and international ingredients to craft seasonal menus
+              that delight every palate.
             </p>
             <p>
-              Whether you're celebrating a special occasion or seeking an intimate
-              dinner, our dedicated staff ensures every moment is memorable.
+              Whether you're celebrating or simply enjoying a night out, our
+              team ensures every moment is unforgettable.
             </p>
           </div>
         </div>
 
+        {/* Second Row */}
         <div
           className="grid md:grid-cols-2 gap-12 items-center"
           data-aos="fade-left"
         >
-          <div className="space-y-6 text-lg text-gray-700">
-            <h3 className="text-3xl font-semibold text-yellow-500">
+          <div className="space-y-6 text-base md:text-lg leading-relaxed tracking-normal">
+            <h3 className="text-3xl font-bold text-secondary tracking-wide uppercase">
               Our Story & Philosophy
             </h3>
             <p>
-              Grand Dine was born from a passion to combine fine dining with an
-              inviting atmosphere. Our philosophy is simple: elegance, quality,
-              and hospitality are the pillars of every dish and service we offer.
+              Grand Dine was born from a passion to fuse fine dining with warmth
+              and hospitality. Our philosophy is rooted in elegance, quality,
+              and creating lasting memories.
             </p>
             <p>
-              We pride ourselves on sustainable practices, supporting local farmers
-              and producers to deliver freshness from farm to table.
+              We champion sustainability by supporting local farmers and
+              sourcing responsibly. From farm to table, we ensure authenticity
+              in every bite.
             </p>
             <p>
-              Each visit is curated to be unique — we invite you to explore new
-              tastes, enjoy timeless classics, and create lasting memories.
+              We invite you to explore new tastes, enjoy timeless classics, and
+              become part of our story.
             </p>
           </div>
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80"
-              alt="Chef cooking gourmet dish"
-              className="rounded-2xl shadow-lg w-full object-cover h-96"
-            />
-          </div>
+          <img
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80"
+            alt="Chef cooking gourmet dish"
+            className="rounded-3xl shadow-2xl w-full h-96 object-cover"
+          />
         </div>
 
-        <div data-aos="fade-up" className="text-center max-w-3xl mx-auto space-y-6">
-          <h3 className="text-3xl font-semibold text-yellow-500">
+        {/* Team Section */}
+        <div
+          data-aos="fade-up"
+          className="text-center max-w-4xl mx-auto space-y-12"
+        >
+          <h3 className="text-3xl font-bold text-secondary tracking-wide uppercase">
             Meet Our Team
           </h3>
-          <p className="text-lg text-gray-700">
-            Our talented chefs and attentive staff bring years of experience and passion
-            to every plate and interaction. Dedicated to excellence, they make your
-            experience truly exceptional.
+          <p className="text-base md:text-lg text-gray-400 tracking-normal">
+            Our talented chefs and attentive staff bring passion and years of
+            experience to every dish and service. Here's the team behind the
+            magic.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-10">
             {[
               {
                 name: "Chef Maria Lopez",
@@ -148,7 +171,7 @@ const About = () => {
             ].map((person) => (
               <div
                 key={person.name}
-                className="bg-yellow-50 rounded-xl p-6 shadow-md hover:shadow-xl transition cursor-pointer"
+                className="bg-white text-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
                 tabIndex={0}
                 role="group"
                 aria-label={`${person.name}, ${person.role}`}
@@ -157,13 +180,17 @@ const About = () => {
                 <img
                   src={person.img}
                   alt={person.name}
-                  className="w-32 h-32 rounded-full mx-auto object-cover mb-4 shadow-lg"
+                  className="w-28 h-28 rounded-full mx-auto object-cover mb-4 shadow-md"
                 />
-                <h4 className="text-xl font-semibold text-yellow-600 text-center">
+                <h4 className="text-lg font-semibold text-secondary text-center tracking-widest uppercase">
                   {person.name}
                 </h4>
-                <p className="text-center font-medium text-yellow-500">{person.role}</p>
-                <p className="mt-3 text-gray-700 text-sm leading-relaxed">{person.bio}</p>
+                <p className="text-sm font-medium text-secondary tracking-wide uppercase">
+                  {person.role}
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-gray-700 tracking-normal">
+                  {person.bio}
+                </p>
               </div>
             ))}
           </div>

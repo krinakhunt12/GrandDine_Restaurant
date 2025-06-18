@@ -63,8 +63,34 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className="font-sans bg-white text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
+    <div className="font-sans bg-dark-navy text-gray-800 overflow-x-hidden min-h-screen flex flex-col">
       <Navbar />
+
+            {/* Hero Banner */}
+      <div className="relative bg-dark-navy text-white py-32 overflow-hidden">
+        {/* Leaf Images */}
+        <img
+          src="/About/about-leaf-left.png"
+          alt="Leaf left"
+          className="absolute left-0 top-0 w-64 md:w-80 lg:w-96 opacity-40 pointer-events-none"
+          style={{ transform: "translateY(-10%)" }}
+        />
+        <img
+          src="/About/about-leaf-right.png"
+          alt="Leaf right"
+          className="absolute right-[-50px] top-0 w-64 md:w-130 lg:w-130 opacity-40 rotate-180 pointer-events-none"
+          style={{ transform: "translateY(-10%)" }}
+        />
+
+        <div className="relative z-10 text-center px-6">
+          <p className="uppercase tracking-widest text-sm text-secondary mb-3">
+            More flavor for less
+          </p>
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
+            Good food and <br /> Great vibes
+          </h1>
+        </div>
+      </div>
 
       <main className="max-w-6xl mx-auto p-8 md:p-16 flex-grow">
         <h2
