@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft } from "lucide-react";
-import Navbar from "../Navbar";
+import Navbar from "../components/Navbar";
 
 const Cart = () => {
   const handleNavigateBack = () => {

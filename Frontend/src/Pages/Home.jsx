@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Footer from "../Footer";
-import ReserveTable from "../ReserveTable";
-import Navbar from "../Navbar";
-import Hero from "../home/Hero";
-import AboutSection from "../home/AboutSection";
-import ChefRecommend from "../home/ChefRecommend";
-import MenuSection from "../home/MenuSection";
-import TestimonialSection from "../home/TestimonialSection";
-import ReservationSection from "../home/ReservationSection";
-import PhotoGallery from "../home/PhotoGallery";
+import ReserveTable from "../components/ReserveTable"
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Hero from "../components/home/Hero";
+import AboutSection from "../components/home/AboutSection"
+import ChefRecommend from "../components/home/ChefRecommend";
+import MenuSection from "../components/home/MenuSection";
+import TestimonialSection from "../components/home/TestimonialSection";
+import ReservationSection from "../components/home/ReservationSection";
+import PhotoGallery from "../components/home/PhotoGallery";
 
 const Home = () => {
   const [showReservation, setShowReservation] = useState(false);

@@ -1,12 +1,22 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const About = () => {
+  const [scrollY, setScrollY] = useState(0);
+
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -39,6 +49,7 @@ const About = () => {
         </div>
       </div>
 
+      {/* Bowl with Scroll Effect */}
       <div className="py-48">
         <div className="relative w-full flex justify-center z-10">
           <img
@@ -49,9 +60,9 @@ const About = () => {
           <img
             src="/home/bowl.jpg"
             alt="Chef Recommended Dish"
-            className="w-100 h-100 object-cover rounded-full shadow-2xl relative z-10 transition-transform duration-200"
+            className="w-100 h-100 object-cover rounded-full shadow-2xl relative z-10 transition-transform duration-200 ease-out"
             style={{
-              transform: `translateY(${Math.min(scrollY * 0.05, 10)}px)`,
+              transform: `translateY(${Math.min(scrollY * 0.05, 30)}px)`,
             }}
           />
         </div>

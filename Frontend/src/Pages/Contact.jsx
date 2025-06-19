@@ -3,8 +3,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaFacebookF, FaInstagram, FaTwitter, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 import { RiSendPlaneFill } from "react-icons/ri";
-import Navbar from "../Navbar";
-import Footer from "../Footer";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
