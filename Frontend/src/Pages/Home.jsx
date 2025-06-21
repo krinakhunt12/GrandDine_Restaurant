@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import ReserveTable from "../components/ReserveTable"
+import ReserveTable from "../components/ReserveTable";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Hero from "../components/home/Hero";
-import AboutSection from "../components/home/AboutSection"
+import AboutSection from "../components/home/AboutSection";
 import ChefRecommend from "../components/home/ChefRecommend";
 import MenuSection from "../components/home/MenuSection";
 import TestimonialSection from "../components/home/TestimonialSection";
@@ -69,8 +69,9 @@ const Home = () => {
       {/* Online Reservation Section */}
       <ReservationSection />
 
-   {/* Photo Gallery Section */}
-<PhotoGallery/>
+      {/* Photo Gallery Section */}
+      <PhotoGallery />
+      
       <Footer />
 
       {showReservation && (

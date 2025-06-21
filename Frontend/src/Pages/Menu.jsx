@@ -187,21 +187,21 @@ const Menu = () => {
           src="/About/bowl2.png"
           alt="Tomatoes"
           ref={(el) => (heroBowlRefs.current[0] = el)}
-          className="absolute top-0 right-0 w-48 md:w-64 rotate-[15deg] z-10 pointer-events-none transition-transform duration-200 ease-out"
+          className="absolute top-0 right-[-60px] w-48 md:w-64 rotate-[15deg] z-10 pointer-events-none transition-transform duration-200 ease-out"
         />
 
         <img
           src="/About/bowl1.png"
           alt="Ice Cream"
           ref={(el) => (heroBowlRefs.current[1] = el)}
-          className="absolute bottom-10 left-0 w-40 md:w-56 z-10 pointer-events-none transition-transform duration-200 ease-out"
+          className="absolute bottom-10 left-[-60px] w-40 md:w-56 z-10 pointer-events-none transition-transform duration-200 ease-out"
         />
 
         <img
           src="/About/bowl3.png"
           alt="Dish"
           ref={(el) => (heroBowlRefs.current[2] = el)}
-          className="absolute bottom-10 right-0 w-40 md:w-56 z-20 pointer-events-none transition-transform duration-200 ease-out"
+          className="absolute bottom-10 right-[-50px] w-40 md:w-56 z-20 pointer-events-none transition-transform duration-200 ease-out"
         />
 
         <img

@@ -35,8 +35,9 @@
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 
-scrollbar-hide::-webkit-scrollbar {
+.scrollbar-hide::-webkit-scrollbar {
     display: none;
+    /* Chrome, Safari, Opera */
 }
 
 @keyframes fadeIn {

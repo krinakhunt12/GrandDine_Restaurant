@@ -1,243 +1,175 @@
-import { useState } from "react";
-import { CheckCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Adjust path if needed
+import React, { useState } from "react";
 
 const ReserveTable = ({ onClose }) => {
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
-
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     name: "",
     email: "",
-    mobile: "",
+    phone: "",
     date: "",
     time: "",
-    persons: "1",
-    priceRange: "Moderate",
-    specialRequests: "",
+    seats: "1 person",
+    requests: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
-
   const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    // ✅ Redirect if not logged in
-    if (!isLoggedIn) {
-      alert("Please login to make a reservation.");
-      navigate("/login");
-      return;
-    }
-
-    const { name, email, mobile, date, time, persons, priceRange } = formData;
-
-    if (!name || !email || !mobile || !date || !time || !persons || !priceRange) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    try {
-      const res = await fetch("http://localhost:5000/api/reservations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setSubmitted(true);
-        setTimeout(() => {
-          setFormData({
-            name: "",
-            email: "",
-            mobile: "",
-            date: "",
-            time: "",
-            persons: "1",
-            priceRange: "Moderate",
-            specialRequests: "",
-          });
-          setSubmitted(false);
-          onClose();
-        }, 2500);
-      } else {
-        alert("Failed to submit reservation.");
-      }
-    } catch (err) {
-      alert("Error connecting to server.");
-    }
+    alert("Reservation Submitted!");
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
-      <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-2xl w-full max-w-3xl relative overflow-y-auto max-h-[95vh] animate-fadeIn scrollbar-hide">
+    <div className="fixed inset-0 bg-transperant bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center px-4">
+      <div className="relative bg-transperant bg-opacity-50 border border-gray-300 p-6 rounded-xl max-w-4xl w-full max-h-[95vh] overflow-y-auto scrollbar-hide">
+        {/* Close Button */}
         <button
-          className="absolute top-4 right-4 text-gray-600 hover:text-black text-2xl"
           onClick={onClose}
-          aria-label="Close reservation form"
+          className="absolute top-4 right-4 text-white bg-secondary hover:bg-yellow-700 rounded-full w-10 h-10 flex items-center justify-center z-50"
+          title="Close"
         >
           ✕
         </button>
 
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-6">
-          {/* Left/Form Side */}
-          <div className="w-full">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-yellow-600 mb-2 text-left">
-              {submitted ? "Thank You!" : "Reserve Your Table"}
+        {/* Main Content */}
+        <div className="relative min-h-screen md:min-h-[unset] flex flex-col justify-center items-center bg-transparent text-white px-6 py-12">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <h2 className="text-5xl font-extrabold tracking-wide">
+              <span className="text-gold italic font-serif">Table</span>{" "}
+              <span className="block text-white">BOOKING</span>
             </h2>
-            <p className="text-gray-500 text-left mb-6">
-              {submitted
-                ? "Your reservation was submitted successfully."
-                : "We’ll make sure your table is ready when you arrive."}
-            </p>
-
-            {submitted ? (
-              <div className="flex justify-center items-center py-10">
-                <CheckCircle className="text-green-500 w-16 h-16 animate-pulse" />
-              </div>
-            ) : (
-              <form className="space-y-4 text-left" onSubmit={handleSubmit}>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                    Full Name
-                  </label>
-                  <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="John Doe"
-                    className="w-full border border-gray-300 p-3 pl-4 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                    Email Address
-                  </label>
-                  <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    type="email"
-                    placeholder="john@example.com"
-                    className="w-full border border-gray-300 p-3 pl-4 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                    Mobile Number
-                  </label>
-                  <input
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    type="tel"
-                    placeholder="123-456-7890"
-                    className="w-full border border-gray-300 p-3 pl-4 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                      Date
-                    </label>
-                    <input
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      type="date"
-                      className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                      Time
-                    </label>
-                    <input
-                      name="time"
-                      value={formData.time}
-                      onChange={handleChange}
-                      type="time"
-                      className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                      Number of Persons
-                    </label>
-                    <select
-                      name="persons"
-                      value={formData.persons}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                    >
-                      {[...Array(10).keys()].map((i) => (
-                        <option key={i + 1} value={i + 1}>
-                          {i + 1} {i + 1 === 1 ? "person" : "persons"}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                      Price Range
-                    </label>
-                    <select
-                      name="priceRange"
-                      value={formData.priceRange}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition"
-                    >
-                      <option value="Budget">Budget</option>
-                      <option value="Moderate">Moderate</option>
-                      <option value="Premium">Premium</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 text-left">
-                    Special Requests (Optional)
-                  </label>
-                  <textarea
-                    name="specialRequests"
-                    value={formData.specialRequests}
-                    onChange={handleChange}
-                    rows={2}
-                    placeholder="E.g. Please seat us near the window."
-                    className="w-full border border-gray-300 p-3 rounded-md focus:ring-2 focus:ring-yellow-400 focus:outline-none transition resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-yellow-500 text-white font-semibold py-3 rounded-full hover:bg-yellow-600 transition duration-200"
-                >
-                  Confirm Reservation
-                </button>
-              </form>
-            )}
           </div>
 
-          <div className="w-full">
-            <img
-              src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80"
-              alt="Restaurant Table"
-              className="rounded-xl shadow-lg object-cover w-full h-60 sm:h-80"
-            />
-          </div>
+          {/* Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-3xl grid md:grid-cols-2 gap-6"
+          >
+            {/* Name */}
+            <div className="flex flex-col">
+              <label className="mb-1">Name*</label>
+              <input
+                name="name"
+                type="text"
+                value={form.name}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2"
+                required
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col">
+              <label className="mb-1">Email*</label>
+              <input
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2"
+                required
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="flex flex-col">
+              <label className="mb-1">Phone*</label>
+              <input
+                name="phone"
+                type="tel"
+                value={form.phone}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2"
+                required
+              />
+            </div>
+
+            {/* Seats */}
+            <div className="flex flex-col">
+              <label className="mb-1">Seats*</label>
+              <select
+                name="seats"
+                value={form.seats}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2 appearance-none"
+                required
+              >
+                {[
+                  "1 person",
+                  "2 people",
+                  "3 people",
+                  "4 people",
+                  "5+ people",
+                ].map((s, i) => (
+                  <option key={i} value={s} className="text-black">
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Date */}
+            <div className="flex flex-col">
+              <label className="mb-1">Date*</label>
+              <input
+                name="date"
+                type="date"
+                value={form.date}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2"
+                style={{
+                  colorScheme: "dark",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  appearance: "none",
+                }}
+                required
+              />
+            </div>
+
+            {/* Time */}
+            <div className="flex flex-col">
+              <label className="mb-1">Time*</label>
+              <input
+                name="time"
+                type="time"
+                value={form.time}
+                onChange={handleChange}
+                className="bg-transparent border-b border-white outline-none py-2"
+                style={{
+                  colorScheme: "dark",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                  appearance: "none",
+                }}
+                required
+              />
+            </div>
+
+            {/* Special Requests (full width) */}
+            <div className="flex flex-col md:col-span-2">
+              <label className="mb-1">Special Requests</label>
+              <textarea
+                name="requests"
+                value={form.requests}
+                onChange={handleChange}
+                rows="3"
+                className="bg-transparent border-b border-white outline-none py-2 resize-none"
+              ></textarea>
+            </div>
+
+            {/* Button (centered) */}
+            <div className="md:col-span-2 flex justify-center pt-6">
+              <button
+                type="submit"
+                className="bg-gold text-white border border-white font-bold py-3 px-8 rounded-full transition hover:opacity-90"
+              >
+                BOOK NOW
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
