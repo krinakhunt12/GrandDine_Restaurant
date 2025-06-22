@@ -70,9 +70,8 @@ const ReserveTable = ({ onClose }) => {
 
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-3xl grid md:grid-cols-2 gap-6 text-white"
+          className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-white"
         >
-          {/* Name */}
           <div className="flex flex-col">
             <label className="mb-1">Name*</label>
             <input
@@ -85,7 +84,6 @@ const ReserveTable = ({ onClose }) => {
             />
           </div>
 
-          {/* Email */}
           <div className="flex flex-col">
             <label className="mb-1">Email*</label>
             <input
@@ -98,7 +96,6 @@ const ReserveTable = ({ onClose }) => {
             />
           </div>
 
-          {/* Phone */}
           <div className="flex flex-col">
             <label className="mb-1">Phone*</label>
             <input
@@ -111,108 +108,108 @@ const ReserveTable = ({ onClose }) => {
             />
           </div>
 
-          {/* Seats - Custom Dropdown */}
-       <div className="flex flex-col">
-  <label className="mb-1">Seats*</label>
-  <Listbox
-    value={form.seats}
-    onChange={(val) => setForm({ ...form, seats: val })}
-  >
-    <div className="relative">
-      <Listbox.Button className="relative w-full cursor-pointer bg-transparent border-b border-white py-2 pl-3 pr-10 text-left text-white shadow-md outline-none focus:outline-none">
-        <span className="block truncate">{form.seats}</span>
-        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-          <ChevronUpDownIcon
-            className="h-5 w-5 text-white"
-            aria-hidden="true"
-          />
-        </span>
-      </Listbox.Button>
-
-      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-48 overflow-auto rounded-md bg-black bg-opacity-90 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
-        {peopleOptions.map((option, idx) => (
-          <Listbox.Option
-            key={idx}
-            value={option}
-            className={({ active }) =>
-              `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                active ? "bg-secondary text-black" : "text-white"
-              }`
-            }
-          >
-            {({ selected }) => (
-              <>
-                <span className={`block truncate ${selected ? "font-medium" : "font-normal"}`}>
-                  {option}
-                </span>
-                {selected && (
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <CheckIcon className="h-5 w-5" />
+          <div className="flex flex-col">
+            <label className="mb-1">Seats*</label>
+            <Listbox
+              value={form.seats}
+              onChange={(val) => setForm({ ...form, seats: val })}
+            >
+              <div className="relative">
+                <Listbox.Button className="relative w-full cursor-pointer bg-transparent border-b border-white py-2 pl-3 pr-10 text-left text-white shadow-md outline-none focus:outline-none">
+                  <span className="block truncate">{form.seats}</span>
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronUpDownIcon
+                      className="h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
                   </span>
-                )}
-              </>
-            )}
-          </Listbox.Option>
-        ))}
-      </Listbox.Options>
-    </div>
-  </Listbox>
-</div>
+                </Listbox.Button>
 
-          {/* Price Range - Custom Dropdown */}
-     <div className="flex flex-col">
-  <label className="mb-1">Price Range*</label>
-  <Listbox
-    value={form.priceRange}
-    onChange={(val) => setForm({ ...form, priceRange: val })}
-  >
-    <div className="relative">
-      <Listbox.Button className="relative w-full cursor-pointer bg-transparent border-b border-white py-2 pl-3 pr-10 text-left text-white shadow-md outline-none focus:outline-none">
-        <span className="block truncate">{form.priceRange}</span>
-        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-          <ChevronUpDownIcon
-            className="h-5 w-5 text-white"
-            aria-hidden="true"
-          />
-        </span>
-      </Listbox.Button>
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-48 overflow-auto rounded-md bg-black bg-opacity-90 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+                  {peopleOptions.map((option, idx) => (
+                    <Listbox.Option
+                      key={idx}
+                      value={option}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                          active ? "bg-secondary text-black" : "text-white"
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {option}
+                          </span>
+                          {selected && (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                              <CheckIcon className="h-5 w-5" />
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
+          </div>
 
-      <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-48 overflow-auto rounded-md bg-black bg-opacity-90 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
-        {priceOptions.map((option, idx) => (
-          <Listbox.Option
-            key={idx}
-            value={option}
-            className={({ active }) =>
-              `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                active ? "bg-secondary text-black" : "text-white"
-              }`
-            }
-          >
-            {({ selected }) => (
-              <>
-                <span
-                  className={`block truncate ${
-                    selected ? "font-medium" : "font-normal"
-                  }`}
-                >
-                  {option}
-                </span>
-                {selected && (
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                    <CheckIcon className="h-5 w-5" />
+          <div className="flex flex-col">
+            <label className="mb-1">Price Range*</label>
+            <Listbox
+              value={form.priceRange}
+              onChange={(val) => setForm({ ...form, priceRange: val })}
+            >
+              <div className="relative">
+                <Listbox.Button className="relative w-full cursor-pointer bg-transparent border-b border-white py-2 pl-3 pr-10 text-left text-white shadow-md outline-none focus:outline-none">
+                  <span className="block truncate">{form.priceRange}</span>
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <ChevronUpDownIcon
+                      className="h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
                   </span>
-                )}
-              </>
-            )}
-          </Listbox.Option>
-        ))}
-      </Listbox.Options>
-    </div>
-  </Listbox>
-</div>
+                </Listbox.Button>
 
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-48 overflow-auto rounded-md bg-black bg-opacity-90 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
+                  {priceOptions.map((option, idx) => (
+                    <Listbox.Option
+                      key={idx}
+                      value={option}
+                      className={({ active }) =>
+                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                          active ? "bg-secondary text-black" : "text-white"
+                        }`
+                      }
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {option}
+                          </span>
+                          {selected && (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                              <CheckIcon className="h-5 w-5" />
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </div>
+            </Listbox>
+          </div>
 
-          {/* Date */}
           <div className="flex flex-col">
             <label className="mb-1">Date*</label>
             <input
@@ -226,7 +223,6 @@ const ReserveTable = ({ onClose }) => {
             />
           </div>
 
-          {/* Time */}
           <div className="flex flex-col">
             <label className="mb-1">Time*</label>
             <input
@@ -240,7 +236,6 @@ const ReserveTable = ({ onClose }) => {
             />
           </div>
 
-          {/* Special Requests */}
           <div className="flex flex-col md:col-span-2">
             <label className="mb-1">Special Requests</label>
             <textarea

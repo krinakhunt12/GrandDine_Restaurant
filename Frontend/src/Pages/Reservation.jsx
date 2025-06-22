@@ -82,7 +82,6 @@ const Reservation = () => {
       <Navbar />
 
       {/* Hero Banner */}
-
       <section className="relative bg-dark-navy text-white py-40 md:py-52 px-4 text-center overflow-visible min-h-[90vh] mt-20">
         <h4 className="text-sm tracking-widest text-secondary uppercase mb-4">
           More flavor for less
@@ -105,7 +104,7 @@ const Reservation = () => {
         <img
           src="/About/about-leaf-right.png"
           alt="Leaf Right"
-          className="absolute top-0 right-0 w-52 md:w-130 rotate-[40deg] opacity-70 z-0 pointer-events-none"
+          className="absolute top-10 right-[-5%] w-52 md:w-130 rotate-[-40deg] opacity-70 z-0 pointer-events-none"
           style={{ transform: "translate(30%, -10%)" }}
         />
 

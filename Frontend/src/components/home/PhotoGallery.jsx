@@ -11,16 +11,22 @@ const images = [
 
 const PhotoGallery = () => {
   return (
-    <section className="py-16 px-6 bg-dark-navy" data-aos="fade-up" data-aos-duration="1000">
-      <div className="max-w-6xl mx-auto text-center mb-12">
-        <p className="text-white uppercase tracking-widest text-sm mb-1">Follow Along</p>
-        <h2 className="text-4xl md:text-5xl font-bold font-serif text-white">
+    <section
+      className="py-16 px-4 sm:px-6 bg-dark-navy"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+    >
+      <div className="max-w-6xl mx-auto text-center mb-10 sm:mb-12">
+        <p className="text-white uppercase tracking-widest text-xs sm:text-sm mb-1">
+          Follow Along
+        </p>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-white">
           @Grand Dine
         </h2>
-        <div className="mt-2 w-20 h-[2px] bg-secondary mx-auto"></div>
+        <div className="mt-2 w-16 sm:w-20 h-[2px] bg-secondary mx-auto"></div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-6xl mx-auto">
         {images.map((src, index) => (
           <div
             key={index}
@@ -31,7 +37,7 @@ const PhotoGallery = () => {
             <img
               src={src}
               alt={`gallery-${index}`}
-              className="w-full h-64 object-cover transform hover:scale-105 transition duration-500"
+              className="w-full h-48 sm:h-56 md:h-64 object-cover transform hover:scale-105 transition duration-500"
             />
           </div>
         ))}

@@ -3,7 +3,7 @@ const TestimonialSection = () => {
   return (
     <section className="py-10 px-6 dark-navy" data-aos="fade-up">
       <div className="max-w-5xl mx-auto text-center">
-        <h3 className="text-4xl font-serif font-bold mb-12 text-secondary tracking-wider">
+        <h3 className="text-3xl sm:text-4xl md:text-5xl text-white font-bold tracking-wider mb-8 sm:mb-10">
           What Our Guests Say
         </h3>
 
