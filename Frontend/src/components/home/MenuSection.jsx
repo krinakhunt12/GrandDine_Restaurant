@@ -1,4 +1,5 @@
-// src/components/Home/MenuSection.jsx
+import { motion } from "framer-motion";
+
 const menuItems = [
   {
     title: "Paneer Butter Masala",
@@ -18,7 +19,6 @@ const menuItems = [
     price: "₹250",
     img: "/home/Smenu/CB.jpg",
   },
-
 ];
 
 const MenuSection = ({ setShowReservation }) => {
@@ -37,10 +37,14 @@ const MenuSection = ({ setShowReservation }) => {
         </h2>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {menuItems.map((item) => (
-            <div
+          {menuItems.map((item, index) => (
+            <motion.div
               key={item.title}
-              className="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:shadow-yellow-500/20 transition"
+              className="bg-gray-900 rounded-lg overflow-hidden shadow-lg transition"
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: index * 0.15 }}
             >
               <img
                 src={item.img}
@@ -54,16 +58,18 @@ const MenuSection = ({ setShowReservation }) => {
                   {item.price}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <button
+        <motion.button
           onClick={() => setShowReservation(true)}
+          whileHover={{ scale: 1.1 }}
+          transition={{ type: "spring", stiffness: 300 }}
           className="mt-12 inline-block px-10 py-3 border border-secondary text-secondary font-medium rounded-full hover:bg-yellow-400 hover:text-black transition"
         >
           View Full Menu
-        </button>
+        </motion.button>
       </div>
     </section>
   );

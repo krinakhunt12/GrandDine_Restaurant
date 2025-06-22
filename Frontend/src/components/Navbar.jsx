@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
   const location = useLocation();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
 
@@ -13,14 +15,12 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Menu", path: "/menu" },
-    // { name: "Events", path: "/events" },
     { name: "Reservation", path: "/reservation" },
     { name: "Contact", path: "/contact" },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      // Set scrolled true if user scrolls down 100px
       setScrolled(window.scrollY > 100);
     };
 
@@ -28,14 +28,27 @@ const Navbar = () => {
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     } else {
-      // Always apply blur for non-home pages
       setScrolled(true);
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     setMobileMenuOpen(false);
+    setShowDropdown(false);
   };
 
   return (
@@ -62,7 +75,6 @@ const Navbar = () => {
               </Link>
             ))}
 
-            {/* Cart Button */}
             <Link
               to="/cart"
               className="ml-4 text-white hover:heading-secondary transition"
@@ -87,12 +99,32 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <button
-                onClick={handleLogout}
-                className="ml-4 px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 shadow-md font-semibold"
-              >
-                Logout
-              </button>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setShowDropdown((prev) => !prev)}
+                  className="text-white text-2xl focus:outline-none"
+                  aria-label="User menu"
+                >
+                  <FaUserCircle />
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded-md shadow-lg z-50">
+                    <Link
+                      to="/profile"
+                      onClick={() => setShowDropdown(false)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Edit Profile
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </nav>
 
@@ -157,7 +189,7 @@ const Navbar = () => {
                   <Link
                     to="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-40 px-5 py-2 border heading-secondary heading-secondary rounded-full hover:button-secondary hover:text-black transition duration-300 text-center shadow-sm"
+                    className="w-40 px-5 py-2 border heading-secondary rounded-full hover:button-secondary hover:text-black transition duration-300 text-center shadow-sm"
                   >
                     Login
                   </Link>
@@ -173,14 +205,25 @@ const Navbar = () => {
                 </li>
               </>
             ) : (
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="w-40 px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 text-center shadow-md font-semibold"
-                >
-                  Logout
-                </button>
-              </li>
+              <>
+                <li>
+                  <Link
+                    to="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-40 px-5 py-2 bg-gray-200 text-black rounded-full hover:bg-yellow-300 transition duration-300 text-center shadow-md font-semibold"
+                  >
+                    Edit Profile
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="w-40 px-5 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition duration-300 text-center shadow-md font-semibold"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
             )}
           </ul>
         </nav>

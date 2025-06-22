@@ -155,38 +155,49 @@ const Reservation = () => {
             </div>
           </div>
 
-          <div className="border border-secondary p-8 rounded-lg">
-            <div className="space-y-6">
-              <div>
-                <h4 className="font-semibold text-white text-lg mb-1">
-                  Lunch Time
-                </h4>
-                <p className="text-gray-300">Monday to Sunday</p>
-                <p className="text-gray-300">10.30am - 3:00pm</p>
+          <div className="border border-secondary p-8 rounded-lg bg-dark-navy">
+            <div className="space-y-8">
+              {/* Lunch & Dinner Time Side by Side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Lunch Time */}
+                <div>
+                  <h4 className="font-semibold text-white text-lg mb-1">
+                    Lunch Time
+                  </h4>
+                  <p className="text-gray-300">Monday to Sunday</p>
+                  <p className="text-gray-300">10:30am - 3:00pm</p>
+                </div>
+
+                {/* Dinner Time */}
+                <div>
+                  <h4 className="font-semibold text-white text-lg mb-1">
+                    Dinner Time
+                  </h4>
+                  <p className="text-gray-300">Monday to Sunday</p>
+                  <p className="text-gray-300">5:30pm - 11:00pm</p>
+                </div>
               </div>
 
-              <div>
-                <h4 className="font-semibold text-white text-lg mb-1">
-                  Dinner Time
-                </h4>
-                <p className="text-gray-300">Monday to Sunday</p>
-                <p className="text-gray-300">5.30pm - 11:00pm</p>
-              </div>
-
+              {/* Location (Own Row) */}
               <div>
                 <h4 className="font-semibold text-white text-lg mb-1">
                   Location
                 </h4>
                 <p className="text-gray-300">
-                  732/21 Second Street, Manchester Kingston <br /> United
-                  Kingdom
+                  732/21 Second Street, Manchester Kingston <br />
+                  United Kingdom
                 </p>
               </div>
 
-              <button className="bg-secondary hover:bg-yellow-700 text-white font-semibold px-6 py-3 rounded transition duration-300 mt-4"
-               onClick={handleReservationClick}>
-                Make an Online Reservation
-              </button>
+              {/* Button */}
+              <div>
+                <button
+                  className="bg-secondary hover:bg-yellow-700 text-white font-semibold px-6 py-3 rounded transition duration-300"
+                  onClick={handleReservationClick}
+                >
+                  Make an Online Reservation
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -294,14 +305,7 @@ const Reservation = () => {
       </section>
       <Footer />
 
-{showForm && (
-
-      <ReserveTable onClose={() => setShowForm(false)} />
-    
-)}
-
-
-
+      {showForm && <ReserveTable onClose={() => setShowForm(false)} />}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Login = () => {
   const [shake, setShake] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useAuth(); // ⬅️ Context usage
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -48,7 +48,7 @@ const Login = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5000/api/login", {
+        const response = await fetch("http://localhost:5000/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,14 +60,11 @@ const Login = () => {
 
         if (!response.ok) {
           setServerError(data.message || "Login failed");
-          setSubmitted(false);
           setShake(true);
-          setLoading(false);
           setTimeout(() => setShake(false), 500);
         } else {
-          setIsLoggedIn(true); // ✅ Set login state
+          setIsLoggedIn(true);
           setSubmitted(true);
-          setLoading(false);
           setFormData({ email: "", password: "" });
 
           setTimeout(() => {
@@ -76,13 +73,13 @@ const Login = () => {
         }
       } catch (error) {
         setServerError("Server error. Please try again later.");
-        setLoading(false);
         setShake(true);
         setTimeout(() => setShake(false), 500);
+      } finally {
+        setLoading(false);
       }
     } else {
       setErrors(validationErrors);
-      setSubmitted(false);
       setShake(true);
       setTimeout(() => setShake(false), 500);
     }
@@ -90,12 +87,11 @@ const Login = () => {
 
   return (
     <div
-      className={`flex w-full shadow-lg rounded-lg overflow-hidden h-screen ${
+      className={`flex flex-col md:flex-row h-screen transition-all ${
         shake ? "animate-shake" : ""
       }`}
-      data-aos="fade-up"
     >
-      <div className="w-1/2 h-screen">
+      <div className="hidden md:flex md:w-1/2 h-screen">
         <img
           src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
           alt="Restaurant"
@@ -103,41 +99,37 @@ const Login = () => {
         />
       </div>
 
-      <div className="w-1/2 h-screen flex justify-center items-center p-12">
+      <div className="w-full md:w-1/2 h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 via-white to-yellow-100 px-6">
         <form
           onSubmit={handleSubmit}
-          className="max-w-sm w-full flex flex-col space-y-6 text-left"
+          className="max-w-sm w-full space-y-6 bg-white shadow-xl rounded-2xl p-8"
           noValidate
+          data-aos="fade-up"
         >
-          <h2 className="text-4xl font-extrabold text-yellow-600 mb-8 text-center" data-aos="fade-down">
-            Login
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-secondary mb-4">Welcome Back</h2>
 
           {submitted && (
-            <p className="text-green-600 font-semibold mb-4 animate-fade-in text-center">
+            <p className="text-green-600 font-semibold text-center">
               Login successful! Redirecting...
             </p>
           )}
 
           {serverError && (
-            <p className="text-red-600 font-semibold mb-4 text-center">
-              {serverError}
-            </p>
+            <p className="text-red-600 font-medium text-center">{serverError}</p>
           )}
 
           <div>
-            <label htmlFor="email" className="block mb-1 font-medium">
-              Email
+            <label htmlFor="email" className="block font-medium mb-1">
+              Email Address
             </label>
             <input
               type="email"
-              id="email"
               name="email"
+              id="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              autoComplete="email"
-              className={`w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors duration-200 ${
+              className={`w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -147,72 +139,27 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block mb-1 font-medium">
+            <label htmlFor="password" className="block font-medium mb-1">
               Password
             </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                id="password"
                 name="password"
+                id="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
-                autoComplete="current-password"
-                className={`w-full border rounded px-4 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors duration-200 ${
+                placeholder="••••••••"
+                className={`w-full border px-4 py-2 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
                   errors.password ? "border-red-500" : "border-gray-300"
                 }`}
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-yellow-600"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                tabIndex={-1}
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-secondary"
               >
-                {showPassword ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.966 9.966 0 013.91-7.58M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 3l18 18"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                )}
+                {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
             {errors.password && (
@@ -220,58 +167,61 @@ const Login = () => {
             )}
           </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              className="h-4 w-4 text-yellow-500 focus:ring-yellow-400 border-gray-300 rounded"
-            />
-            <label htmlFor="rememberMe" className="text-sm select-none">
-              Remember me
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+                className="rounded text-secondary focus:ring-yellow-400"
+              />
+              <span>Remember me</span>
             </label>
+            <a href="/forgot-password" className="text-secondary hover:underline">
+              Forgot password?
+            </a>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className={`bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded transition w-full flex justify-center items-center ${
-              loading ? "cursor-not-allowed opacity-70" : ""
+            className={`w-full bg-secondary hover:bg-secondary text-white font-semibold py-2.5 rounded-lg transition shadow-md ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >
-            {loading && (
-              <svg
-                className="animate-spin h-5 w-5 mr-3 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"
-                />
-              </svg>
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-2 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
+                </svg>
+                Logging in...
+              </div>
+            ) : (
+              "Login"
             )}
-            {loading ? "Logging in..." : "Login"}
           </button>
 
-          <div className="text-center mt-4 text-sm text-gray-600 space-x-4">
-            <a href="/signup" className="text-yellow-600 hover:underline">
-              Create an account
-            </a>
-            <span>|</span>
-            <a href="/forgot-password" className="text-yellow-600 hover:underline">
-              Forgot password?
+          <div className="text-center text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <a href="/signup" className="text-secondary font-medium hover:underline">
+              Sign up
             </a>
           </div>
         </form>

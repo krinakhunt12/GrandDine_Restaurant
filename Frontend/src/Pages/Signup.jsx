@@ -4,7 +4,6 @@ import "aos/dist/aos.css";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,7 +19,7 @@ const Signup = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useAuth(); // ✅ Set login state
+  const { setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -67,7 +66,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -80,7 +79,7 @@ const Signup = () => {
 
       if (response.ok) {
         setSubmitted(true);
-        setIsLoggedIn(true); // ✅ Mark user as logged in
+        setIsLoggedIn(true);
         setFormData({
           name: "",
           email: "",
@@ -100,30 +99,23 @@ const Signup = () => {
   };
 
   return (
-    <div
-      className="flex w-full shadow-lg rounded-lg overflow-hidden h-screen"
-      data-aos="fade-up"
-    >
-      <div className="w-1/2 h-screen">
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="hidden md:flex md:w-1/2 h-screen">
         <img
-          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4"
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
           alt="Restaurant"
           className="w-full h-full object-cover"
         />
       </div>
 
-      <div className="w-1/2 h-screen flex justify-center items-center p-12">
+      <div className="w-full md:w-1/2 h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 via-white to-yellow-100 px-6">
         <form
           onSubmit={handleSubmit}
-          className="max-w-sm w-full space-y-6"
+          className="max-w-sm w-full space-y-6 bg-white shadow-xl rounded-2xl p-8"
           noValidate
+          data-aos="fade-up"
         >
-          <h2
-            className="text-4xl font-extrabold text-yellow-600 mb-8 text-center"
-            data-aos="fade-down"
-          >
-            Sign Up
-          </h2>
+          <h2 className="text-3xl font-bold text-center text-secondary mb-4">Create Account</h2>
 
           {submitted && (
             <p className="text-green-600 text-center font-semibold">
@@ -136,30 +128,28 @@ const Signup = () => {
             </p>
           )}
 
-          {/* Name Field */}
-          <div className="flex flex-col items-start">
-            <label htmlFor="name" className="font-medium text-gray-700">
-              Name
+          {/* Name */}
+          <div>
+            <label htmlFor="name" className="block font-medium mb-1">
+              Full Name
             </label>
             <input
               id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Full name"
-              className={`w-full border rounded px-4 py-2 mt-1 ${
+              placeholder="John Doe"
+              className={`w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-            )}
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
-          {/* Email Field */}
-          <div className="flex flex-col items-start">
-            <label htmlFor="email" className="font-medium text-gray-700">
-              Email
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block font-medium mb-1">
+              Email Address
             </label>
             <input
               id="email"
@@ -168,104 +158,99 @@ const Signup = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="you@example.com"
-              className={`w-full border rounded px-4 py-2 mt-1 ${
+              className={`w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-            )}
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
-          {/* Password Field */}
-          <div className="flex flex-col items-start relative">
-            <label htmlFor="password" className="font-medium text-gray-700">
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block font-medium mb-1">
               Password
             </label>
-            <input
-              id="password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className={`w-full border rounded px-4 py-2 mt-1 ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-11 text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-            )}
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`w-full border px-4 py-2 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-secondary"
+              >
+                {showPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
-          {/* Confirm Password Field */}
-          <div className="flex flex-col items-start relative">
-            <label
-              htmlFor="confirmPassword"
-              className="font-medium text-gray-700"
-            >
+          {/* Confirm Password */}
+          <div>
+            <label htmlFor="confirmPassword" className="block font-medium mb-1">
               Confirm Password
             </label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              placeholder="Re-enter Password"
-              className={`w-full border rounded px-4 py-2 mt-1 ${
-                errors.confirmPassword ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-11 text-yellow-600 font-semibold hover:text-yellow-700 focus:outline-none"
-            >
-              {showConfirmPassword ? "Hide" : "Show"}
-            </button>
+            <div className="relative">
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className={`w-full border px-4 py-2 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-yellow-500 ${
+                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-secondary"
+              >
+                {showConfirmPassword ? "🙈" : "👁️"}
+              </button>
+            </div>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.confirmPassword}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
             )}
           </div>
 
           {/* Remember Me */}
-          <div className="flex items-center">
+          <div className="flex items-center space-x-2 text-sm">
             <input
-              id="rememberMe"
               type="checkbox"
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
-              className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+              className="rounded text-secondary focus:ring-yellow-400"
             />
-            <label htmlFor="rememberMe" className="ml-2 font-medium text-gray-700">
-              Remember Me
-            </label>
+            <label htmlFor="rememberMe">Remember me</label>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className="bg-yellow-500 text-white px-6 py-3 rounded w-full hover:bg-yellow-600 transition"
+            className={`w-full bg-secondary text-white font-semibold py-2.5 rounded-lg transition shadow-md hover:bg-secondary-dark ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>
 
-          <p className="text-center text-sm">
+          <div className="text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <Link to="/login" className="text-yellow-600 underline">
+            <Link to="/login" className="text-secondary font-medium hover:underline">
               Login
             </Link>
-          </p>
+          </div>
         </form>
       </div>
     </div>
