@@ -77,20 +77,26 @@ const Signup = () => {
       });
       const result = await response.json();
 
-      if (response.ok) {
-        setSubmitted(true);
-        setIsLoggedIn(true);
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
+    if (response.ok) {
+  // ✅ Store token if returned
+  if (result.token) {
+    localStorage.setItem("token", result.token);
+  }
 
-        setTimeout(() => navigate("/"), 2000);
-      } else {
-        setErrors({ api: result.message || "Signup failed." });
-      }
+  setSubmitted(true);
+  setIsLoggedIn(true);
+  setFormData({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  setTimeout(() => navigate("/"), 2000);
+} else {
+  setErrors({ api: result.message || "Signup failed." });
+}
+
     } catch (err) {
       setErrors({ api: "Server error. Try again later." });
     }

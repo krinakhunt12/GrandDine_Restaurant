@@ -58,19 +58,25 @@ const Login = () => {
 
         const data = await response.json();
 
-        if (!response.ok) {
-          setServerError(data.message || "Login failed");
-          setShake(true);
-          setTimeout(() => setShake(false), 500);
-        } else {
-          setIsLoggedIn(true);
-          setSubmitted(true);
-          setFormData({ email: "", password: "" });
+       if (!response.ok) {
+  setServerError(data.message || "Login failed");
+  setShake(true);
+  setTimeout(() => setShake(false), 500);
+} else {
+  // ✅ Save token
+  if (data.token) {
+    localStorage.setItem("token", data.token);
+  }
 
-          setTimeout(() => {
-            navigate("/");
-          }, 1500);
-        }
+  setIsLoggedIn(true);
+  setSubmitted(true);
+  setFormData({ email: "", password: "" });
+
+  setTimeout(() => {
+    navigate("/");
+  }, 1500);
+}
+
       } catch (error) {
         setServerError("Server error. Please try again later.");
         setShake(true);

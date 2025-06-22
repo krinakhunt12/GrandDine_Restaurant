@@ -57,7 +57,7 @@ const Navbar = () => {
       }`}
     >
       <div className="flex justify-between items-center px-6 py-4">
-        <img src="/LOGO11.png" alt="Logo" className="h-12" />
+        <img src="/logo2.png" alt="Logo" className="h-16" />
 
         {/* Desktop Menu & Auth Buttons */}
         <div className="hidden md:flex items-center space-x-6 text-white font-medium">

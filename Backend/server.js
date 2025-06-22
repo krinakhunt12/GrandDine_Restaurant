@@ -21,7 +21,8 @@ mongoose
 
 // API Routes
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/auth", authRoutes); // Optional: if you have auth
+app.use("/api/auth", authRoutes);
+app.use("/api/user", require("./routes/user"));
 
 // Root Route
 app.get("/", (req, res) => {

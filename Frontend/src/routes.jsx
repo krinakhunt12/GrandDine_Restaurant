@@ -9,7 +9,7 @@ import Reservation from "./Pages/Reservation";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import Cart from "./Pages/Cart";
+import EditProfile from "./Pages/EditProfile";
 
 
 const AppRoutes = () => (
@@ -22,7 +22,7 @@ const AppRoutes = () => (
     <Route path="/contact" element={<Contact />} />
     <Route path="/login" element={<Login />} />
     <Route path="/signup" element={<Signup />} />
-    <Route path="/cart" element={<Cart />} />
+    <Route path="/profile" element={<EditProfile />} />
   </Routes>
 );
 

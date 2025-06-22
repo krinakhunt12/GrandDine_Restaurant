@@ -64,7 +64,7 @@ const Contact = () => {
 
       {/* Hero */}
       <header
-        className="relative pt-24 pb-20 text-center px-4"
+        className="relative pt-24 pb-20 text-center px-4 overflow-hidden"
         data-aos="zoom-in"
       >
         <div className="relative z-10 max-w-2xl mx-auto">
@@ -76,16 +76,29 @@ const Contact = () => {
             reach out and we'll be there.
           </p>
         </div>
+
+        {/* Leaf Image (positioned absolutely) */}
+        <img
+          src="/About/about-leaf-left.png" 
+          alt="Decorative Leaf"
+          className="absolute top-20 left-0 w-50 sm:w-60 opacity-30 rotate-12 pointer-events-none select-none"
+        />
+           {/* Leaf Image (positioned absolutely) */}
+        <img
+          src="/About/about-leaf-right.png" 
+          alt="Decorative Leaf"
+          className="absolute top-2 right-[-10%] w-20 sm:w-120 opacity-30 rotate-[-50deg] pointer-events-none select-none"
+        />
       </header>
 
       {/* Form & Info */}
-      <main className="flex-grow max-w-7xl mx-auto px-6 md:px-12 py-16 grid lg:grid-cols-[3fr_2fr] gap-16">
+      <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-16 grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 lg:gap-16">
         {/* Form */}
         <form
           onSubmit={handleSubmit}
           noValidate
           aria-label="Contact form"
-          className="bg-black/70 p-10 rounded-2xl backdrop-blur-md  shadow-lg"
+          className="bg-black/70 p-8 sm:p-10 rounded-2xl backdrop-blur-md shadow-lg"
           data-aos="fade-right"
         >
           {submitted && (
@@ -142,21 +155,20 @@ const Contact = () => {
               )}
             </div>
           ))}
-          <div className="flex items-center justify-center mx-auto">
-                     <button
-            type="submit"
-            className={`px-4 flex items-center justify-center gap-2 bg-gradient-to-r border border-gray-300 py-4 rounded-xl font-semibold transition transform hover:-translate-y-1 ${
-              isLoading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-            disabled={isLoading}
-          >
-            <span className="flex items-center gap-2">
-              {isLoading ? "Sending..." : "Send Message"}
-              {!isLoading && <RiSendPlaneFill size={20} />}
-            </span>
-          </button>
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              className={`px-6 flex items-center justify-center gap-2 bg-gradient-to-r border border-gray-300 py-4 rounded-xl font-semibold transition transform hover:-translate-y-1 ${
+                isLoading ? "opacity-70 cursor-not-allowed" : ""
+              }`}
+              disabled={isLoading}
+            >
+              <span className="flex items-center gap-2">
+                {isLoading ? "Sending..." : "Send Message"}
+                {!isLoading && <RiSendPlaneFill size={20} />}
+              </span>
+            </button>
           </div>
- 
         </form>
 
         {/* Contact Info */}
@@ -165,20 +177,18 @@ const Contact = () => {
           data-aos="fade-left"
           aria-label="Contact details"
         >
-       
-       {/* Map */}
-<div className="relative overflow-hidden rounded-2xl shadow-lg h-64">
-  <iframe
-    title="Location"
-    className="w-full h-full rounded-2xl border-0"
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.4100204986644!2d72.53176421535308!3d23.116644618371073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84fc58f2cb4f%3A0x92d1ff96b87520f6!2sAhmedabad%2C%20Gujarat%2C%20India!5e0!3m2!1sen!2sus!4v1718603342486!5m2!1sen!2sus"
-    allowFullScreen
-    loading="lazy"
-    referrerPolicy="no-referrer-when-downgrade"
-  ></iframe>
-  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-</div>
-
+          {/* Map */}
+          <div className="relative overflow-hidden rounded-2xl shadow-lg h-64">
+            <iframe
+              title="Location"
+              className="w-full h-full rounded-2xl border-0"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.4100204986644!2d72.53176421535308!3d23.116644618371073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84fc58f2cb4f%3A0x92d1ff96b87520f6!2sAhmedabad%2C%20Gujarat%2C%20India!5e0!3m2!1sen!2sus!4v1718603342486!5m2!1sen!2sus"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+          </div>
 
           {/* Info Card */}
           <div className="bg-black/70 p-8 rounded-2xl shadow-lg">
@@ -199,7 +209,7 @@ const Contact = () => {
               {
                 icon: FaEnvelope,
                 title: "Email",
-                lines: ["contact@wilma.com", "support@wilma.com"],
+                lines: ["contact@graddine.com", "support@graddine.com"],
               },
               {
                 icon: FaClock,
@@ -225,17 +235,13 @@ const Contact = () => {
             <div className="pt-6 border-t border-gold/30">
               <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
               <div className="flex space-x-4">
-                {[
-                  { icon: FaFacebookF, url: "#", color: "blue" },
-                  { icon: FaInstagram, url: "#", color: "pink" },
-                  { icon: FaTwitter, url: "#", color: "cyan" },
-                ].map(({ icon: Icon, url, color }, idx) => (
+                {[FaFacebookF, FaInstagram, FaTwitter].map((Icon, idx) => (
                   <a
                     key={idx}
-                    href={url}
+                    href="#"
                     target="_blank"
                     rel="noreferrer"
-                    className={`bg-${color}-800 p-3 rounded-full text-${color}-400 hover:shadow-lg transform hover:-translate-y-1 transition`}
+                    className="bg-gray-800 p-3 rounded-full text-gray-300 hover:shadow-lg transform hover:-translate-y-1 transition"
                   >
                     <Icon size={18} />
                   </a>

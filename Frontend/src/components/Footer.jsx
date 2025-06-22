@@ -91,7 +91,7 @@ const Footer = () => {
             Contact
           </h3>
           <p className="text-sm mb-1 text-gray-300">
-            123 Luxury Ave, Food City
+            123 Main Street, Ahmedabad. Gujarat
           </p>
           <p className="text-sm mb-1 text-gray-300">Phone: (123) 456-7890</p>
           <p className="text-sm mb-1 flex justify-center md:justify-start items-center gap-2 text-gray-300">
