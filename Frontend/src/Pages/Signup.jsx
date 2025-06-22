@@ -75,28 +75,27 @@ const Signup = () => {
           password: formData.password,
         }),
       });
+
       const result = await response.json();
 
-    if (response.ok) {
-  // ✅ Store token if returned
-  if (result.token) {
-    localStorage.setItem("token", result.token);
-  }
+      if (response.ok) {
+        if (result.token) {
+          localStorage.setItem("token", result.token);
+        }
 
-  setSubmitted(true);
-  setIsLoggedIn(true);
-  setFormData({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+        setSubmitted(true);
+        setIsLoggedIn(true);
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
 
-  setTimeout(() => navigate("/"), 2000);
-} else {
-  setErrors({ api: result.message || "Signup failed." });
-}
-
+        setTimeout(() => navigate("/"), 2000);
+      } else {
+        setErrors({ api: result.message || "Signup failed." });
+      }
     } catch (err) {
       setErrors({ api: "Server error. Try again later." });
     }
@@ -121,7 +120,9 @@ const Signup = () => {
           noValidate
           data-aos="fade-up"
         >
-          <h2 className="text-3xl font-bold text-center text-secondary mb-4">Create Account</h2>
+          <h2 className="text-3xl font-bold text-center text-secondary mb-4">
+            Create Account
+          </h2>
 
           {submitted && (
             <p className="text-green-600 text-center font-semibold">
@@ -136,7 +137,7 @@ const Signup = () => {
 
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block font-medium mb-1">
+            <label htmlFor="name" className="block font-medium mb-1 text-left">
               Full Name
             </label>
             <input
@@ -149,12 +150,14 @@ const Signup = () => {
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block font-medium mb-1">
+            <label htmlFor="email" className="block font-medium mb-1 text-left">
               Email Address
             </label>
             <input
@@ -168,12 +171,14 @@ const Signup = () => {
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Password */}
           <div>
-            <label htmlFor="password" className="block font-medium mb-1">
+            <label htmlFor="password" className="block font-medium mb-1 text-left">
               Password
             </label>
             <div className="relative">
@@ -196,12 +201,17 @@ const Signup = () => {
                 {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           {/* Confirm Password */}
           <div>
-            <label htmlFor="confirmPassword" className="block font-medium mb-1">
+            <label
+              htmlFor="confirmPassword"
+              className="block font-medium mb-1 text-left"
+            >
               Confirm Password
             </label>
             <div className="relative">
@@ -225,7 +235,9 @@ const Signup = () => {
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
@@ -236,8 +248,11 @@ const Signup = () => {
               checked={rememberMe}
               onChange={() => setRememberMe(!rememberMe)}
               className="rounded text-secondary focus:ring-yellow-400"
+              id="rememberMe"
             />
-            <label htmlFor="rememberMe">Remember me</label>
+            <label htmlFor="rememberMe" className="text-left">
+              Remember me
+            </label>
           </div>
 
           {/* Submit */}
@@ -253,7 +268,10 @@ const Signup = () => {
 
           <div className="text-center text-sm text-gray-600">
             Already have an account?{" "}
-            <Link to="/login" className="text-secondary font-medium hover:underline">
+            <Link
+              to="/login"
+              className="text-secondary font-medium hover:underline"
+            >
               Login
             </Link>
           </div>

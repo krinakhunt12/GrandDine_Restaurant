@@ -58,25 +58,23 @@ const Login = () => {
 
         const data = await response.json();
 
-       if (!response.ok) {
-  setServerError(data.message || "Login failed");
-  setShake(true);
-  setTimeout(() => setShake(false), 500);
-} else {
-  // ✅ Save token
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-  }
+        if (!response.ok) {
+          setServerError(data.message || "Login failed");
+          setShake(true);
+          setTimeout(() => setShake(false), 500);
+        } else {
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+          }
 
-  setIsLoggedIn(true);
-  setSubmitted(true);
-  setFormData({ email: "", password: "" });
+          setIsLoggedIn(true);
+          setSubmitted(true);
+          setFormData({ email: "", password: "" });
 
-  setTimeout(() => {
-    navigate("/");
-  }, 1500);
-}
-
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        }
       } catch (error) {
         setServerError("Server error. Please try again later.");
         setShake(true);
@@ -125,7 +123,7 @@ const Login = () => {
           )}
 
           <div>
-            <label htmlFor="email" className="block font-medium mb-1">
+            <label htmlFor="email" className="block font-medium mb-1 text-left">
               Email Address
             </label>
             <input
@@ -145,7 +143,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="password" className="block font-medium mb-1">
+            <label htmlFor="password" className="block font-medium mb-1 text-left">
               Password
             </label>
             <div className="relative">
@@ -174,7 +172,7 @@ const Login = () => {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center space-x-2">
+            <label className="flex items-center space-x-2 text-left">
               <input
                 type="checkbox"
                 checked={rememberMe}
